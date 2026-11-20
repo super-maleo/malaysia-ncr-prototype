@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Carbon Levy Offset</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:'Open Sans',Arial,sans-serif;font-size:13px;color:#333;background:#fff}
+a{color:#1e7a46}a:hover{color:#145a32}
+.topbar{background:#1b1b1b;color:#fff;min-height:32px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;font-size:12px;flex-wrap:wrap;gap:8px}
+.topbar a{color:#fff;text-decoration:none}
+.brand{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:10px 24px;border-bottom:1px solid #e5e5e5;flex-wrap:wrap}
+.ptitle{background:#f3f3f3;padding:14px 24px;border-bottom:1px solid #e5e5e5;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.ptitle h1{margin:0;font-size:22px;font-weight:300;color:#1b1b1b}
+.crumb{font-size:12px;color:#595959}
+.shell{display:flex;flex-wrap:wrap;align-items:stretch}
+.side{flex:1 1 220px;max-width:236px;background:#fafafa;border-right:1px solid #e5e5e5;padding:12px 0 24px;box-sizing:border-box}
+.side-h{font-size:11px;font-weight:700;color:#595959;letter-spacing:.06em;padding:16px 20px 6px}
+.side a{display:block;padding:9px 20px;color:#333;text-decoration:none;border-left:3px solid transparent}
+.side a:hover{background:#f0f0f0}
+.side a.on{background:#e8f5ee;border-left-color:#1e8449;color:#145a32;font-weight:700}
+.side .cnt{float:right;background:#c0392b;color:#fff;border-radius:9px;font-size:11px;padding:0 7px;font-weight:700}
+.main{flex:999 1 560px;min-width:0;padding:8px 28px 40px;box-sizing:border-box}
+.sec{font-size:17px;font-weight:300;text-transform:uppercase;border-left:2px solid #27ae60;border-bottom:1px solid #ddd;padding:2px 0 8px 12px;margin:26px 0 14px;color:#333}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px}
+.kpi{border:1px solid #e0e0e0;border-radius:6px;padding:14px 16px;background:#fff}
+.kpi .l{font-size:12px;color:#595959;font-weight:600}
+.kpi .v{font-size:24px;font-weight:600;color:#1b1b1b;margin-top:6px}
+.kpi .s{font-size:12px;color:#595959;margin-top:2px}
+.panel{background:#f3f3f3;border-radius:4px;padding:16px 18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px 22px}
+.f{display:flex;flex-direction:column;gap:5px;font-weight:700;font-size:12px;color:#333}
+.f input,.f select,.f textarea{font:inherit;font-weight:400;padding:7px 9px;border:1px solid #c8c8c8;border-radius:3px;background:#fff;color:#333}
+.f .hint{font-weight:400;color:#595959;font-size:11px}
+.btn{display:inline-block;background:#1e8449;color:#fff;border:1px solid #1e8449;border-radius:6px;padding:8px 16px;text-decoration:none;font:inherit;font-weight:600;cursor:pointer;white-space:nowrap}
+.btn:hover{color:#fff;background:#196f3d}
+.btn2{display:inline-block;background:#fff;color:#333;border:1px solid #c8c8c8;border-radius:6px;padding:8px 16px;text-decoration:none;font:inherit;cursor:pointer;white-space:nowrap}
+.btnr{display:inline-block;background:#fff;color:#a61b1b;border:1px solid #d9a3a3;border-radius:6px;padding:8px 16px;text-decoration:none;font:inherit;cursor:pointer;white-space:nowrap}
+.tbl{overflow-x:auto;border:1px solid #e5e5e5;border-radius:4px}
+table{width:100%;border-collapse:collapse}
+th{color:#1e7a46;text-align:left;font-weight:700;font-size:12px;padding:10px 10px;border-bottom:2px solid #d5ead9;white-space:nowrap;background:#fff}
+td{padding:10px 10px;border-bottom:1px solid #eee;vertical-align:top}
+td.n,th.n{text-align:right;white-space:nowrap}
+.tag{display:inline-block;padding:2px 9px;border-radius:10px;font-size:11px;font-weight:600;white-space:nowrap}
+.t-g{background:#e3f4e8;color:#145a32}.t-a{background:#fdf0dc;color:#7a4b00}.t-b{background:#e6effa;color:#1d4f91}.t-r{background:#fbe7e7;color:#8a1f1f}.t-n{background:#eee;color:#444}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:22px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+.card{border:1px solid #e0e0e0;border-radius:6px;padding:16px 18px;background:#fff}
+.card h3{margin:0 0 10px;font-size:14px;font-weight:700;color:#1b1b1b}
+.dl{display:grid;grid-template-columns:minmax(140px,auto) 1fr;gap:8px 16px;margin:0}
+.dl dt{color:#595959;font-size:12px}.dl dd{margin:0;font-weight:600}
+.bar{height:10px;background:#e9e9e9;border-radius:5px;overflow:hidden}
+.bar > div{height:100%;background:#1e8449}
+.steps{display:flex;gap:0;flex-wrap:wrap;margin:6px 0 4px}
+.steps div{flex:1 1 120px;padding:10px 12px;border-top:4px solid #ddd;font-size:12px;color:#595959}
+.steps div.done{border-top-color:#1e8449;color:#145a32}
+.steps div.cur{border-top-color:#d68910;color:#7a4b00;font-weight:700}
+.note{background:#fdf6e7;border:1px solid #f0d9a8;border-radius:4px;padding:10px 14px;color:#5c3d00;font-size:12px;line-height:1.6}
+.mono{font-family:Consolas,'Courier New',monospace;font-size:12px}
+.actions{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;margin-top:14px}
+</style>
+</helmet>
+<div>
+  <div class="topbar">
+    <span>National Carbon Registry · Malaysia <span class="tag t-a" style="margin-left:8px">Sample data · prototype</span></span>
+    <span style="display:flex;gap:16px;align-items:center">Welcome, Lim Wei Ming (Authorised Representative, Sample Cement Bhd) <a href="#">BM | EN</a> <a href="Login.dc.html">Sign out</a></span>
+  </div>
+  <header class="brand">
+    <a href="Dashboard.dc.html" style="display:flex;align-items:center;gap:12px;text-decoration:none;color:#1b1b1b">
+      <svg width="34" height="34" viewBox="0 0 40 40" aria-hidden="true"><rect x="1" y="1" width="38" height="38" rx="8" fill="none" stroke="#1e8449" stroke-width="2"></rect><path d="M12 27c0-9 7-15 17-15-1 10-7 16-15 16" fill="none" stroke="#1e8449" stroke-width="2.2" stroke-linecap="round"></path><path d="M12 28l9-9" stroke="#1e8449" stroke-width="2.2" stroke-linecap="round"></path></svg>
+      <span><span style="display:block;font-size:17px;font-weight:600">National Carbon Registry</span><span style="display:block;font-size:11px;color:#595959">CCU Registry · Administration</span></span>
+    </a>
+    <label style="display:flex;align-items:center;gap:8px;flex:0 1 360px"><span style="font-size:12px;color:#595959;white-space:nowrap">Quick search</span><input type="text" placeholder="Serial no., account, project…" style="font:inherit;padding:7px 9px;border:1px solid #c8c8c8;border-radius:3px;width:100%"></label>
+  </header>
+  <div class="ptitle"><div><div class="crumb">Home / Market &amp; compliance / Carbon Levy</div><h1>Carbon Levy Offset</h1></div><div style="display:flex;gap:10px;flex-wrap:wrap"><a href="#" class="btn2">Levy statement</a></div></div>
+  <div class="shell">
+    <nav class="side" aria-label="Registry modules">
+      <div class="side-h">REGISTRY OPERATIONS</div>
+      <a href="Dashboard.dc.html">Dashboard</a>
+      <a href="Accounts.dc.html">Accounts &amp; KYC<span class="cnt">3</span></a>
+      <a href="Projects.dc.html">Project Registration<span class="cnt">5</span></a>
+      <a href="Issuance.dc.html">CCU Issuance<span class="cnt">2</span></a>
+      <a href="Transfers.dc.html">Transfers &amp; Article 6<span class="cnt">1</span></a>
+      <div class="side-h">MARKET &amp; COMPLIANCE</div>
+      <a href="Trading.dc.html">Trading &amp; Payment</a>
+      <a href="Retirement.dc.html">CCU Retirement</a>
+      <a href="Levy.dc.html" class="on" aria-current="page">Carbon Levy Offset</a>
+      <div class="side-h">INSIGHT</div>
+      <a href="Reports.dc.html">Reporting &amp; Validity</a>
+      <a href="Main.dc.html">Public registry view</a>
+    </nav>
+    <main class="main">
+      <h2 class="sec">Levy obligation · 2026 cycle · LEVY-0021</h2>
+      <div class="kpis">
+        <div class="kpi"><div class="l">Verified emissions (from MRV)</div><div class="v">120,000</div><div class="s">tCO₂e · liable sector: cement</div></div>
+        <div class="kpi"><div class="l">Offset cap · 20%</div><div class="v">24,000</div><div class="s">tCO₂e may be covered by CCU</div></div>
+        <div class="kpi"><div class="l">Already surrendered</div><div class="v">5,000</div><div class="s">tCO₂e · FCO</div></div>
+        <div class="kpi"><div class="l">Remaining offset room</div><div class="v" style="color:#145a32">19,000</div><div class="s">tCO₂e · closes 31 Mar 2027</div></div>
+      </div>
+
+      <div class="grid2" style="margin-top:6px;grid-template-columns:repeat(auto-fit,minmax(440px,1fr))">
+        <section>
+          <h2 class="sec">Surrender CCU against the levy</h2>
+          <div class="tbl"><table>
+            <thead><tr><th>Use</th><th>Serial block</th><th>Origin</th><th class="n">Qty</th><th>Check</th></tr></thead>
+            <tbody>
+              <tr><td><input type="checkbox" checked aria-label="Use block 1"></td><td class="mono">MY-FCO-SBH-0012-2025-004-0040001–0043000</td><td>FCO · domestic</td><td class="n">3,000</td><td><span class="tag t-g">Eligible</span></td></tr>
+              <tr><td><input type="checkbox" checked aria-label="Use block 2"></td><td class="mono">MY-GS-JHR-0021-2025-002-0001001–0006000</td><td>Gold Standard · international</td><td class="n">5,000</td><td><span class="tag t-g">Eligible</span></td></tr>
+              <tr><td><input type="checkbox" aria-label="Use block 3" disabled></td><td class="mono">MY-FCO-SBH-0009-2020-001-0012001–0014000</td><td>FCO · domestic</td><td class="n">2,000</td><td><span class="tag t-r">Vintage too old for levy</span></td></tr>
+            </tbody></table></div>
+
+          <div class="card" style="margin-top:16px"><h3>Live validation</h3>
+            <div style="font-size:12px;color:#595959">Offset cap use after this surrender: 13,000 of 24,000 tCO₂e</div>
+            <div class="bar" style="margin-top:6px"><div style="width:54%"></div></div>
+            <div style="font-size:12px;color:#595959;margin-top:14px">International credits (VCS / GS) within total surrendered: 5,000 of 13,000 = 38% · threshold 50% (sample)</div>
+            <div class="bar" style="margin-top:6px;position:relative"><div style="width:38%;background:#1d4f91"></div></div>
+            <div style="display:flex;justify-content:space-between;font-size:11px;color:#595959;margin-top:3px"><span>0%</span><span>threshold 50%</span><span>100%</span></div>
+            <div style="margin-top:14px;display:flex;flex-direction:column;gap:6px">
+              <div><span class="tag t-g">Pass</span> Within 20% offset cap</div>
+              <div><span class="tag t-g">Pass</span> International share within threshold</div>
+              <div><span class="tag t-g">Pass</span> Units not authorised for Article 6 transfer</div>
+            </div>
+            <div class="note" style="margin-top:12px">Example of a blocked case: surrendering 15,000 VCS units alone would make international credits 75% of the total. The system stops the request and shows how many domestic units are needed.</div>
+          </div>
+          <div class="actions"><a href="#" class="btn2">Save draft</a><a href="Retirement.dc.html" class="btn">Surrender 8,000 CCU</a></div>
+        </section>
+
+        <section>
+          <h2 class="sec">Effect on levy payable (sample rate)</h2>
+          <div class="card">
+            <div class="tbl" style="border:0"><table><tbody>
+              <tr><td>Verified emissions</td><td class="n">120,000 t</td></tr>
+              <tr><td>Covered by CCU (5,000 earlier + 8,000 now)</td><td class="n">− 13,000 t</td></tr>
+              <tr><td>Emissions subject to levy</td><td class="n">107,000 t</td></tr>
+              <tr><td>Levy rate</td><td class="n">RM [rate] / t</td></tr>
+              <tr style="background:#f4faf6"><td><b>Levy payable</b></td><td class="n"><b>107,000 × RM [rate]</b></td></tr>
+            </tbody></table></div>
+            <div style="font-size:12px;color:#595959;margin-top:10px">The surrender result is sent to the Carbon Levy system automatically; the levy notice is issued there.</div>
+          </div>
+
+          <h2 class="sec">Policy parameters (set by NRES)</h2>
+          <div class="card">
+            <dl class="dl">
+              <dt>Offset cap</dt><dd>20% of verified emissions</dd>
+              <dt>International credit threshold</dt><dd>[x]% of surrendered CCU · 50% shown as sample</dd>
+              <dt>Eligible programmes</dt><dd>FCO, Malaysia Domestic Standard, Verra VCS, Gold Standard (Malaysian-hosted only)</dd>
+              <dt>Vintage rule</dt><dd>Vintage ≥ [year] · unit within validity date</dd>
+              <dt>Excluded units</dt><dd>Units authorised for Article 6 transfer</dd>
+              <dt>Surrender window</dt><dd>1 Jan – 31 Mar following the levy year</dd>
+            </dl>
+            <div style="font-size:12px;color:#595959;margin-top:10px">Administrators change these parameters on the policy screen. Every change is versioned and applies from a stated cycle.</div>
+          </div>
+        </section>
+      </div>
+
+    </main>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1150}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Public Registry Portal</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:'Open Sans',Arial,sans-serif;font-size:13px;color:#333;background:#fff}
+a{color:#1e7a46}a:hover{color:#145a32}
+.topbar{background:#1b1b1b;color:#fff;min-height:32px;display:flex;align-items:center;justify-content:space-between;padding:0 32px;font-size:12px;flex-wrap:wrap;gap:8px}
+.topbar a{color:#fff;text-decoration:none}
+.brand{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 32px;border-bottom:1px solid #e5e5e5;flex-wrap:wrap}
+.nav{display:flex;gap:4px;flex-wrap:wrap;align-items:center}
+.nav a{padding:8px 12px;color:#333;text-decoration:none;border-radius:4px}
+.nav a.on{color:#145a32;font-weight:700;background:#e8f5ee}
+.btn{display:inline-block;background:#1e8449;color:#fff;border:1px solid #1e8449;border-radius:6px;padding:9px 18px;text-decoration:none;font:inherit;font-weight:600;cursor:pointer}
+.btn:hover{color:#fff;background:#196f3d}
+.btn2{display:inline-block;background:#fff;color:#333;border:1px solid #c8c8c8;border-radius:6px;padding:9px 18px;text-decoration:none;font:inherit;cursor:pointer}
+.sec{font-size:18px;font-weight:300;text-transform:uppercase;border-left:2px solid #27ae60;border-bottom:1px solid #ddd;padding:2px 0 8px 12px;margin:32px 0 16px;color:#333}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:16px}
+.kpi{border:1px solid #e0e0e0;border-radius:6px;padding:16px 18px;background:#fff}
+.kpi .l{font-size:12px;color:#595959;font-weight:600}
+.kpi .v{font-size:26px;font-weight:600;color:#1b1b1b;margin-top:6px}
+.kpi .s{font-size:12px;color:#595959;margin-top:2px}
+.panel{background:#f3f3f3;border-radius:4px;padding:18px 20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px 24px}
+.f{display:flex;flex-direction:column;gap:5px;font-weight:700;font-size:12px;color:#333}
+.f input,.f select{font:inherit;font-weight:400;padding:7px 9px;border:1px solid #c8c8c8;border-radius:3px;background:#fff;color:#333}
+.tbl{overflow-x:auto;border:1px solid #e5e5e5;border-radius:4px}
+table{width:100%;border-collapse:collapse}
+th{color:#1e7a46;text-align:left;font-weight:700;font-size:12px;padding:11px 10px;border-bottom:2px solid #d5ead9;white-space:nowrap;background:#fff}
+td{padding:11px 10px;border-bottom:1px solid #eee;vertical-align:top}
+td.n,th.n{text-align:right;white-space:nowrap}
+.tag{display:inline-block;padding:2px 9px;border-radius:10px;font-size:11px;font-weight:600;white-space:nowrap}
+.t-g{background:#e3f4e8;color:#145a32}.t-a{background:#fdf0dc;color:#7a4b00}.t-b{background:#e6effa;color:#1d4f91}.t-n{background:#eee;color:#444}
+.tabs{display:flex;gap:0;border-bottom:1px solid #ddd;margin-bottom:16px;flex-wrap:wrap}
+.tabs a{padding:10px 18px;text-decoration:none;color:#595959;border-bottom:3px solid transparent;font-weight:600}
+.tabs a.on{color:#145a32;border-bottom-color:#1e8449}
+.wrap{max-width:1280px;margin:0 auto;padding:0 32px 48px;box-sizing:border-box}
+</style>
+</helmet>
+<div>
+  <div class="topbar">
+    <span>Official registry of the Government of Malaysia · Ministry of Natural Resources and Environmental Sustainability (NRES)</span>
+    <span style="display:flex;gap:16px"><a href="#">Bahasa Melayu</a><a href="#" style="font-weight:700">English</a></span>
+  </div>
+  <header class="brand">
+    <div style="display:flex;align-items:center;gap:14px">
+      <div aria-label="Agency logo placeholder" role="img" style="width:44px;height:44px;border-radius:50%;background:#eee;border:1px dashed #999;display:flex;align-items:center;justify-content:center;font-size:9px;color:#595959;text-align:center;line-height:1.1">Agency<br>logo</div>
+      <svg width="40" height="40" viewBox="0 0 40 40" role="img" aria-label="NCR mark"><rect x="1" y="1" width="38" height="38" rx="8" fill="none" stroke="#1e8449" stroke-width="2"></rect><path d="M12 27c0-9 7-15 17-15-1 10-7 16-15 16" fill="none" stroke="#1e8449" stroke-width="2.2" stroke-linecap="round"></path><path d="M12 28l9-9" stroke="#1e8449" stroke-width="2.2" stroke-linecap="round"></path></svg>
+      <div>
+        <div style="font-size:20px;font-weight:600;color:#1b1b1b">National Carbon Registry</div>
+        <div style="font-size:12px;color:#595959">Malaysia · Carbon Credit Unit (CCU) Registry</div>
+      </div>
+    </div>
+    <nav class="nav" aria-label="Public navigation">
+      <a href="#" class="on">Registry</a><a href="#">Projects</a><a href="#">Retirements</a><a href="#">Article 6</a><a href="#">Documents</a><a href="#">Guidance &amp; FAQ</a>
+      <a href="Login.dc.html" class="btn" style="margin-left:8px">Sign in</a>
+    </nav>
+  </header>
+
+  <section style="background:#f3f3f3;border-bottom:1px solid #e5e5e5">
+    <div class="wrap" style="padding-top:28px;padding-bottom:28px">
+      <h1 style="margin:0;font-size:28px;font-weight:300;color:#1b1b1b">One national ledger for every carbon credit unit in Malaysia</h1>
+      <p style="margin:8px 0 0;max-width:760px;color:#4a4a4a;line-height:1.6">Search registered projects, CCU issuances, retirements and Article 6 transfers. Every unit carries a unique serial number, its origin programme and its corresponding-adjustment status.</p>
+      <div style="margin-top:14px;display:flex;gap:10px;align-items:center;flex-wrap:wrap"><span class="tag t-a">Sample data · prototype</span><span style="font-size:12px;color:#595959">Last updated 20 Nov 2026, 21:00 MYT</span></div>
+    </div>
+  </section>
+
+  <main class="wrap">
+    <h2 class="sec">Registry at a glance</h2>
+    <div class="kpis">
+      <div class="kpi"><div class="l">Issued</div><div class="v">4,812,560</div><div class="s">tCO₂e · all programmes</div></div>
+      <div class="kpi"><div class="l">Available</div><div class="v">3,906,214</div><div class="s">tCO₂e in holding accounts</div></div>
+      <div class="kpi"><div class="l">Listed on Bursa Carbon Exchange</div><div class="v">412,300</div><div class="s">tCO₂e locked for trading</div></div>
+      <div class="kpi"><div class="l">Retired</div><div class="v">487,946</div><div class="s">incl. 152,880 for Carbon Levy</div></div>
+      <div class="kpi"><div class="l">Cancelled / expired</div><div class="v">6,100</div><div class="s">tCO₂e</div></div>
+      <div class="kpi"><div class="l">Internationally transferred</div><div class="v">0</div><div class="s">ITMOs · first transfer</div></div>
+    </div>
+
+    <h2 class="sec">By crediting programme</h2>
+    <div class="tbl"><table>
+      <thead><tr><th>Programme</th><th>Type</th><th class="n">Projects</th><th class="n">Issued (tCO₂e)</th><th class="n">Remaining</th><th class="n">Retired</th><th>Recorded in NCR as</th></tr></thead>
+      <tbody>
+        <tr><td><b>Forest Carbon Offset (FCO)</b></td><td>Domestic · government</td><td class="n">14</td><td class="n">1,920,400</td><td class="n">1,610,050</td><td class="n">310,350</td><td><span class="tag t-g">Issued in NCR</span></td></tr>
+        <tr><td><b>Malaysia Domestic Standard</b></td><td>Domestic</td><td class="n">0</td><td class="n">0</td><td class="n">0</td><td class="n">0</td><td><span class="tag t-n">Methodologies pending</span></td></tr>
+        <tr><td><b>Verra VCS</b></td><td>International</td><td class="n">21</td><td class="n">2,410,160</td><td class="n">2,051,764</td><td class="n">158,396</td><td><span class="tag t-b">Mirrored · locked at origin</span></td></tr>
+        <tr><td><b>Gold Standard</b></td><td>International</td><td class="n">4</td><td class="n">482,000</td><td class="n">244,400</td><td class="n">19,200</td><td><span class="tag t-b">Mirrored · locked at origin</span></td></tr>
+        <tr><td><b>Paris Agreement Crediting Mechanism</b></td><td>Article 6.4</td><td class="n">0</td><td class="n">0</td><td class="n">0</td><td class="n">0</td><td><span class="tag t-n">Awaiting CDM transition</span></td></tr>
+      </tbody></table></div>
+
+    <h2 class="sec">Search the registry</h2>
+    <form class="panel" aria-label="Registry search">
+      <label class="f">Keyword<input type="text" placeholder="Project name, proponent or serial number"></label>
+      <label class="f">State<select><option>All states</option><option>Sabah</option><option>Sarawak</option><option>Pahang</option><option>Johor</option></select></label>
+      <label class="f">Sector<select><option>All sectors</option><option>Forestry &amp; land use</option><option>Energy</option><option>Waste</option><option>Industrial processes</option><option>Agriculture</option><option>CCUS</option></select></label>
+      <label class="f">Programme<select><option>All programmes</option><option>FCO</option><option>Verra VCS</option><option>Gold Standard</option><option>PACM</option></select></label>
+      <label class="f">Vintage<select><option>All years</option><option>2026</option><option>2025</option><option>2024</option></select></label>
+      <label class="f">Authorised use<select><option>Any</option><option>Not authorised</option><option>Authorised for NDC</option><option>Authorised for CORSIA (OIMP)</option></select></label>
+      <label class="f">Corresponding adjustment<select><option>Any</option><option>Applied</option><option>Not applied</option></select></label>
+      <div style="display:flex;gap:10px;align-items:flex-end;justify-content:flex-end"><button type="reset" class="btn2">Reset</button><button type="button" class="btn">Search</button></div>
+    </form>
+
+    <div class="tabs" style="margin-top:24px" role="tablist"><a href="#" class="on">Projects (39)</a><a href="#">Issuances</a><a href="#">Retirements</a><a href="#">ITMOs</a></div>
+    <div class="tbl"><table>
+      <thead><tr><th>Registry No.</th><th>Project</th><th>Proponent</th><th>State</th><th>Sector</th><th>Programme</th><th class="n">Issued</th><th class="n">Retired</th><th>Authorised use</th><th>Detail</th></tr></thead>
+      <tbody>
+        <tr><td>NCR-PRJ-SBH-0012</td><td>Ulu Segama Forest Restoration</td><td>Sample Forest Holdings Sdn Bhd</td><td>Sabah</td><td>Forestry</td><td>FCO</td><td class="n">620,000</td><td class="n">88,400</td><td><span class="tag t-n">Not authorised</span></td><td><a href="#">View</a></td></tr>
+        <tr><td>NCR-PRJ-PHG-0007</td><td>Pahang Peatland Conservation</td><td>Sample Peat Trust Bhd</td><td>Pahang</td><td>Forestry</td><td>Verra VCS</td><td class="n">915,200</td><td class="n">61,000</td><td><span class="tag t-b">NDC · Singapore</span></td><td><a href="#">View</a></td></tr>
+        <tr><td>NCR-PRJ-JHR-0021</td><td>Palm Oil Mill Biogas Capture</td><td>Sample Agro Energy Sdn Bhd</td><td>Johor</td><td>Waste</td><td>Gold Standard</td><td class="n">212,000</td><td class="n">19,200</td><td><span class="tag t-n">Not authorised</span></td><td><a href="#">View</a></td></tr>
+        <tr><td>NCR-PRJ-SWK-0003</td><td>Kemena Mangrove Blue Carbon</td><td>Sample Coastal Cooperative</td><td>Sarawak</td><td>Forestry</td><td>FCO</td><td class="n">—</td><td class="n">—</td><td><span class="tag t-a">Under validation</span></td><td><a href="#">View</a></td></tr>
+        <tr><td>NCR-PRJ-KDH-0015</td><td>Rooftop Solar Aggregation Programme</td><td>Sample Solar Aggregator Sdn Bhd</td><td>Kedah</td><td>Energy</td><td>Verra VCS</td><td class="n">88,500</td><td class="n">12,300</td><td><span class="tag t-b">CORSIA (OIMP)</span></td><td><a href="#">View</a></td></tr>
+      </tbody></table></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;flex-wrap:wrap;gap:8px;color:#595959;font-size:12px"><span>Showing 1–5 of 39 projects · <a href="#">Download CSV</a> · <a href="#">Open data API</a></span><span>‹ 1 2 3 … 8 ›</span></div>
+  </main>
+  <footer style="border-top:1px solid #e5e5e5;padding:16px 32px;font-size:12px;color:#595959;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px"><span>National Carbon Registry · prototype v1 · for discussion</span><span><a href="#">Terms</a> · <a href="#">Privacy</a> · <a href="#">Contact registry administrator</a></span></footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1500}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

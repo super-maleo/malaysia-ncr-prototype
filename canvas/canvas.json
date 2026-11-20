@@ -1,0 +1,19 @@
+{"v":3,"createdOnFiles":{"v":1,"at":"2026-11-20T13:18:21Z"},"title":"Malaysia National CCU Registry — Prototype v1","launch":{"view":"canvas"},"pages":[],"boards":{
+"Main.dc.html":{"x":0,"y":300,"w":1440,"h":1500,"title":"P1 · Public Registry Portal","expand":"fill","is_interactive":true},
+"Login.dc.html":{"x":1520,"y":300,"w":1440,"h":900,"title":"P2 · Sign in","expand":"fill","is_interactive":true},
+"Dashboard.dc.html":{"x":0,"y":2220,"w":1440,"h":1150,"title":"A1 · Registry Dashboard","expand":"fill","is_interactive":true},
+"Accounts.dc.html":{"x":1520,"y":2220,"w":1440,"h":1050,"title":"A2 · Accounts & KYC","expand":"fill","is_interactive":true},
+"Projects.dc.html":{"x":3040,"y":2220,"w":1440,"h":1200,"title":"A3 · Project Registration","expand":"fill","is_interactive":true},
+"Issuance.dc.html":{"x":4560,"y":2220,"w":1440,"h":1150,"title":"A4 · CCU Issuance","expand":"fill","is_interactive":true},
+"Transfers.dc.html":{"x":6080,"y":2220,"w":1440,"h":1200,"title":"A5 · Transfers, Article 6 & VCS/GS Link","expand":"fill","is_interactive":true},
+"Trading.dc.html":{"x":0,"y":3740,"w":1440,"h":1200,"title":"M1 · Trading & Online Payment","expand":"fill","is_interactive":true},
+"Retirement.dc.html":{"x":1520,"y":3740,"w":1440,"h":1050,"title":"M2 · CCU Retirement","expand":"fill","is_interactive":true},
+"Levy.dc.html":{"x":3040,"y":3740,"w":1440,"h":1150,"title":"M3 · Carbon Levy Offset","expand":"fill","is_interactive":true},
+"Reports.dc.html":{"x":4560,"y":3740,"w":1440,"h":1100,"title":"M4 · Reporting & Validity","expand":"fill","is_interactive":true}
+},
+"order":["Main.dc.html","Login.dc.html","Dashboard.dc.html","Accounts.dc.html","Projects.dc.html","Issuance.dc.html","Transfers.dc.html","Trading.dc.html","Retirement.dc.html","Levy.dc.html","Reports.dc.html"],
+"notes":{
+"t1":{"x":0,"y":0,"text":"Public portal","kind":"title1","maxW":2960},
+"t2":{"x":0,"y":1920,"text":"Registry Administrator console (NRES)","kind":"title1","maxW":7520},
+"t3":{"x":0,"y":3440,"text":"Market & compliance (account holders)","kind":"title1","maxW":5960}
+},"designSystems":[]}

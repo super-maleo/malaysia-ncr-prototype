@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Reporting &amp; Validity Management</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:'Open Sans',Arial,sans-serif;font-size:13px;color:#333;background:#fff}
+a{color:#1e7a46}a:hover{color:#145a32}
+.topbar{background:#1b1b1b;color:#fff;min-height:32px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;font-size:12px;flex-wrap:wrap;gap:8px}
+.topbar a{color:#fff;text-decoration:none}
+.brand{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:10px 24px;border-bottom:1px solid #e5e5e5;flex-wrap:wrap}
+.ptitle{background:#f3f3f3;padding:14px 24px;border-bottom:1px solid #e5e5e5;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.ptitle h1{margin:0;font-size:22px;font-weight:300;color:#1b1b1b}
+.crumb{font-size:12px;color:#595959}
+.shell{display:flex;flex-wrap:wrap;align-items:stretch}
+.side{flex:1 1 220px;max-width:236px;background:#fafafa;border-right:1px solid #e5e5e5;padding:12px 0 24px;box-sizing:border-box}
+.side-h{font-size:11px;font-weight:700;color:#595959;letter-spacing:.06em;padding:16px 20px 6px}
+.side a{display:block;padding:9px 20px;color:#333;text-decoration:none;border-left:3px solid transparent}
+.side a:hover{background:#f0f0f0}
+.side a.on{background:#e8f5ee;border-left-color:#1e8449;color:#145a32;font-weight:700}
+.side .cnt{float:right;background:#c0392b;color:#fff;border-radius:9px;font-size:11px;padding:0 7px;font-weight:700}
+.main{flex:999 1 560px;min-width:0;padding:8px 28px 40px;box-sizing:border-box}
+.sec{font-size:17px;font-weight:300;text-transform:uppercase;border-left:2px solid #27ae60;border-bottom:1px solid #ddd;padding:2px 0 8px 12px;margin:26px 0 14px;color:#333}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px}
+.kpi{border:1px solid #e0e0e0;border-radius:6px;padding:14px 16px;background:#fff}
+.kpi .l{font-size:12px;color:#595959;font-weight:600}
+.kpi .v{font-size:24px;font-weight:600;color:#1b1b1b;margin-top:6px}
+.kpi .s{font-size:12px;color:#595959;margin-top:2px}
+.panel{background:#f3f3f3;border-radius:4px;padding:16px 18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px 22px}
+.f{display:flex;flex-direction:column;gap:5px;font-weight:700;font-size:12px;color:#333}
+.f input,.f select,.f textarea{font:inherit;font-weight:400;padding:7px 9px;border:1px solid #c8c8c8;border-radius:3px;background:#fff;color:#333}
+.f .hint{font-weight:400;color:#595959;font-size:11px}
+.btn{display:inline-block;background:#1e8449;color:#fff;border:1px solid #1e8449;border-radius:6px;padding:8px 16px;text-decoration:none;font:inherit;font-weight:600;cursor:pointer;white-space:nowrap}
+.btn:hover{color:#fff;background:#196f3d}
+.btn2{display:inline-block;background:#fff;color:#333;border:1px solid #c8c8c8;border-radius:6px;padding:8px 16px;text-decoration:none;font:inherit;cursor:pointer;white-space:nowrap}
+.btnr{display:inline-block;background:#fff;color:#a61b1b;border:1px solid #d9a3a3;border-radius:6px;padding:8px 16px;text-decoration:none;font:inherit;cursor:pointer;white-space:nowrap}
+.tbl{overflow-x:auto;border:1px solid #e5e5e5;border-radius:4px}
+table{width:100%;border-collapse:collapse}
+th{color:#1e7a46;text-align:left;font-weight:700;font-size:12px;padding:10px 10px;border-bottom:2px solid #d5ead9;white-space:nowrap;background:#fff}
+td{padding:10px 10px;border-bottom:1px solid #eee;vertical-align:top}
+td.n,th.n{text-align:right;white-space:nowrap}
+.tag{display:inline-block;padding:2px 9px;border-radius:10px;font-size:11px;font-weight:600;white-space:nowrap}
+.t-g{background:#e3f4e8;color:#145a32}.t-a{background:#fdf0dc;color:#7a4b00}.t-b{background:#e6effa;color:#1d4f91}.t-r{background:#fbe7e7;color:#8a1f1f}.t-n{background:#eee;color:#444}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:22px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+.card{border:1px solid #e0e0e0;border-radius:6px;padding:16px 18px;background:#fff}
+.card h3{margin:0 0 10px;font-size:14px;font-weight:700;color:#1b1b1b}
+.dl{display:grid;grid-template-columns:minmax(140px,auto) 1fr;gap:8px 16px;margin:0}
+.dl dt{color:#595959;font-size:12px}.dl dd{margin:0;font-weight:600}
+.bar{height:10px;background:#e9e9e9;border-radius:5px;overflow:hidden}
+.bar > div{height:100%;background:#1e8449}
+.steps{display:flex;gap:0;flex-wrap:wrap;margin:6px 0 4px}
+.steps div{flex:1 1 120px;padding:10px 12px;border-top:4px solid #ddd;font-size:12px;color:#595959}
+.steps div.done{border-top-color:#1e8449;color:#145a32}
+.steps div.cur{border-top-color:#d68910;color:#7a4b00;font-weight:700}
+.note{background:#fdf6e7;border:1px solid #f0d9a8;border-radius:4px;padding:10px 14px;color:#5c3d00;font-size:12px;line-height:1.6}
+.mono{font-family:Consolas,'Courier New',monospace;font-size:12px}
+.actions{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;margin-top:14px}
+</style>
+</helmet>
+<div>
+  <div class="topbar">
+    <span>National Carbon Registry · Malaysia <span class="tag t-a" style="margin-left:8px">Sample data · prototype</span></span>
+    <span style="display:flex;gap:16px;align-items:center">Welcome, Nur Aisyah (Registry Administrator, NRES) <a href="#">BM | EN</a> <a href="Login.dc.html">Sign out</a></span>
+  </div>
+  <header class="brand">
+    <a href="Dashboard.dc.html" style="display:flex;align-items:center;gap:12px;text-decoration:none;color:#1b1b1b">
+      <svg width="34" height="34" viewBox="0 0 40 40" aria-hidden="true"><rect x="1" y="1" width="38" height="38" rx="8" fill="none" stroke="#1e8449" stroke-width="2"></rect><path d="M12 27c0-9 7-15 17-15-1 10-7 16-15 16" fill="none" stroke="#1e8449" stroke-width="2.2" stroke-linecap="round"></path><path d="M12 28l9-9" stroke="#1e8449" stroke-width="2.2" stroke-linecap="round"></path></svg>
+      <span><span style="display:block;font-size:17px;font-weight:600">National Carbon Registry</span><span style="display:block;font-size:11px;color:#595959">CCU Registry · Administration</span></span>
+    </a>
+    <label style="display:flex;align-items:center;gap:8px;flex:0 1 360px"><span style="font-size:12px;color:#595959;white-space:nowrap">Quick search</span><input type="text" placeholder="Serial no., account, project…" style="font:inherit;padding:7px 9px;border:1px solid #c8c8c8;border-radius:3px;width:100%"></label>
+  </header>
+  <div class="ptitle"><div><div class="crumb">Home / Insight / Reporting</div><h1>Reporting &amp; Validity Management</h1></div><div style="display:flex;gap:10px;flex-wrap:wrap"><a href="#" class="btn2">Audit trail export</a><a href="#" class="btn">Generate report</a></div></div>
+  <div class="shell">
+    <nav class="side" aria-label="Registry modules">
+      <div class="side-h">REGISTRY OPERATIONS</div>
+      <a href="Dashboard.dc.html">Dashboard</a>
+      <a href="Accounts.dc.html">Accounts &amp; KYC<span class="cnt">3</span></a>
+      <a href="Projects.dc.html">Project Registration<span class="cnt">5</span></a>
+      <a href="Issuance.dc.html">CCU Issuance<span class="cnt">2</span></a>
+      <a href="Transfers.dc.html">Transfers &amp; Article 6<span class="cnt">1</span></a>
+      <div class="side-h">MARKET &amp; COMPLIANCE</div>
+      <a href="Trading.dc.html">Trading &amp; Payment</a>
+      <a href="Retirement.dc.html">CCU Retirement</a>
+      <a href="Levy.dc.html">Carbon Levy Offset</a>
+      <div class="side-h">INSIGHT</div>
+      <a href="Reports.dc.html" class="on" aria-current="page">Reporting &amp; Validity</a>
+      <a href="Main.dc.html">Public registry view</a>
+    </nav>
+    <main class="main">
+      <h2 class="sec">Validity rules by programme</h2>
+      <div class="tbl"><table>
+        <thead><tr><th>Programme</th><th>Unit valid until</th><th>Levy-eligible vintages</th><th>Reminders</th><th>At expiry</th><th></th></tr></thead>
+        <tbody>
+          <tr><td>Forest Carbon Offset</td><td>Vintage year + 5 years (sample)</td><td>≥ [year]</td><td>180 / 90 / 30 days</td><td>Move to expiry cancellation account</td><td><a href="#">Edit</a></td></tr>
+          <tr><td>Malaysia Domestic Standard</td><td>[to be set]</td><td>[to be set]</td><td>180 / 90 / 30 days</td><td>Move to expiry cancellation account</td><td><a href="#">Edit</a></td></tr>
+          <tr><td>Verra VCS / Gold Standard (mirrored)</td><td>NCR use window: vintage + [x] years</td><td>≥ [year]</td><td>90 / 30 days</td><td>Unlock back to origin registry</td><td><a href="#">Edit</a></td></tr>
+          <tr><td>Project registration</td><td>End of crediting period</td><td>—</td><td>Renewal notice 12 months before</td><td>No new issuance</td><td><a href="#">Edit</a></td></tr>
+        </tbody></table></div>
+
+      <h2 class="sec">Units expiring within 180 days</h2>
+      <div class="kpis">
+        <div class="kpi"><div class="l">≤ 30 days</div><div class="v" style="color:#8a1f1f">2,000</div><div class="s">tCO₂e · 1 account</div></div>
+        <div class="kpi"><div class="l">31–90 days</div><div class="v" style="color:#7a4b00">16,400</div><div class="s">tCO₂e · 5 accounts</div></div>
+        <div class="kpi"><div class="l">91–180 days</div><div class="v">41,000</div><div class="s">tCO₂e · 9 accounts</div></div>
+      </div>
+      <div class="tbl" style="margin-top:14px"><table>
+        <thead><tr><th>Account</th><th>Serial block</th><th class="n">Qty</th><th>Valid until</th><th>Last reminder</th><th></th></tr></thead>
+        <tbody>
+          <tr><td>ACC-0143 Sample Cement Bhd</td><td class="mono">MY-FCO-SBH-0009-2020-001-0012001–0014000</td><td class="n">2,000</td><td><span class="tag t-r">31 Dec 2026</span></td><td>01 Nov · email + SMS</td><td><a href="#">Send reminder</a></td></tr>
+          <tr><td>ACC-0098 Sample Steel Sdn Bhd</td><td class="mono">MY-VCS-PHG-0007-2021-002-0050001–0060000</td><td class="n">10,000</td><td><span class="tag t-a">31 Jan 2027</span></td><td>02 Nov · email</td><td><a href="#">Send reminder</a></td></tr>
+          <tr><td>ACC-0061 Sample Trading House Ltd</td><td class="mono">MY-FCO-SBH-0012-2021-001-0100001–0106400</td><td class="n">6,400</td><td><span class="tag t-a">15 Feb 2027</span></td><td>—</td><td><a href="#">Send reminder</a></td></tr>
+        </tbody></table></div>
+
+      <h2 class="sec">Report library</h2>
+      <div class="grid3">
+        <div class="card"><h3>Monthly registry statement</h3><div style="line-height:1.6">Issuance, transfers, retirements, cancellations and balances by programme, state and account type.</div><div style="margin-top:10px;font-size:12px;color:#595959">Scheduled · 1st of each month · NRES, JDK</div><div class="actions" style="justify-content:flex-start"><a href="#" class="btn2">Run</a></div></div>
+        <div class="card"><h3>Carbon Levy offset report</h3><div style="line-height:1.6">Surrenders per liable entity, cap use, international share, units rejected and why.</div><div style="margin-top:10px;font-size:12px;color:#595959">Per levy cycle · shared with the levy agency</div><div class="actions" style="justify-content:flex-start"><a href="#" class="btn2">Run</a></div></div>
+        <div class="card"><h3>Article 6 reports</h3><div style="line-height:1.6">Initial report, annual information and the Biennial Transparency Report tables: authorisations, first transfers, corresponding adjustments.</div><div style="margin-top:10px;font-size:12px;color:#595959">Annual · UNFCCC format</div><div class="actions" style="justify-content:flex-start"><a href="#" class="btn2">Run</a></div></div>
+        <div class="card"><h3>Public statistics &amp; open data</h3><div style="line-height:1.6">The figures on the public registry, also published as CSV and through the open data API.</div><div style="margin-top:10px;font-size:12px;color:#595959">Daily · public</div><div class="actions" style="justify-content:flex-start"><a href="Main.dc.html" class="btn2">Open</a></div></div>
+        <div class="card"><h3>Service-level report</h3><div style="line-height:1.6">Time taken per approval type against the published working-day limits, by officer and by month.</div><div style="margin-top:10px;font-size:12px;color:#595959">Monthly · internal</div><div class="actions" style="justify-content:flex-start"><a href="#" class="btn2">Run</a></div></div>
+        <div class="card"><h3>State registry reconciliation</h3><div style="line-height:1.6">Units and transactions recorded in NCR versus the Sarawak and Sabah registries; differences flagged.</div><div style="margin-top:10px;font-size:12px;color:#595959">Weekly · NRES and state agencies</div><div class="actions" style="justify-content:flex-start"><a href="#" class="btn2">Run</a></div></div>
+      </div>
+
+    </main>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1100}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

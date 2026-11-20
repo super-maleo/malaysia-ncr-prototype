@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Malaysia National CCU Registry — Interactive Prototype</title>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:'Open Sans',Arial,sans-serif;font-size:13px;color:#333;background:#fff}
+a{color:#1e7a46;cursor:pointer}a:hover{color:#145a32}
+button{font:inherit}
+.topbar{background:#1b1b1b;color:#fff;min-height:32px;display:flex;align-items:center;justify-content:space-between;padding:4px 24px;font-size:12px;flex-wrap:wrap;gap:8px}
+.topbar a,.topbar button.link{color:#fff;text-decoration:none;background:none;border:0;padding:0;cursor:pointer;font-size:12px}
+.brand{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:10px 24px;border-bottom:1px solid #e5e5e5;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:12px;color:#1b1b1b;text-decoration:none;cursor:pointer}
+.pubnav{display:flex;gap:4px;flex-wrap:wrap;align-items:center}
+.pubnav a{padding:8px 12px;color:#333;text-decoration:none;border-radius:4px}
+.ptitle{background:#f3f3f3;padding:14px 24px;border-bottom:1px solid #e5e5e5;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.ptitle h1{margin:0;font-size:22px;font-weight:300;color:#1b1b1b}
+.crumb{font-size:12px;color:#595959}
+.shell{display:flex;flex-wrap:wrap;align-items:stretch;min-height:calc(100vh - 140px)}
+.side{flex:1 1 220px;max-width:236px;background:#fafafa;border-right:1px solid #e5e5e5;padding:12px 0 24px}
+.side-h{font-size:11px;font-weight:700;color:#595959;letter-spacing:.06em;padding:16px 20px 6px}
+.side a{display:block;padding:9px 20px;color:#333;text-decoration:none;border-left:3px solid transparent}
+.side a:hover{background:#f0f0f0}
+.side a.on{background:#e8f5ee;border-left-color:#1e8449;color:#145a32;font-weight:700}
+.cnt{float:right;background:#c0392b;color:#fff;border-radius:9px;font-size:11px;padding:0 7px;font-weight:700}
+.main{flex:999 1 560px;min-width:0;padding:8px 28px 48px}
+.wrap{max-width:1280px;margin:0 auto;padding:0 32px 48px}
+.sec{font-size:17px;font-weight:300;text-transform:uppercase;border-left:2px solid #27ae60;border-bottom:1px solid #ddd;padding:2px 0 8px 12px;margin:26px 0 14px;color:#333}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px}
+.kpi{border:1px solid #e0e0e0;border-radius:6px;padding:14px 16px;background:#fff}
+.kpi .l{font-size:12px;color:#595959;font-weight:600}
+.kpi .v{font-size:24px;font-weight:600;color:#1b1b1b;margin-top:6px}
+.kpi .s{font-size:12px;color:#595959;margin-top:2px}
+.panel{background:#f3f3f3;border-radius:4px;padding:16px 18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px 22px}
+.f{display:flex;flex-direction:column;gap:5px;font-weight:700;font-size:12px;color:#333}
+.f input,.f select,.f textarea{font:inherit;font-weight:400;padding:7px 9px;border:1px solid #c8c8c8;border-radius:3px;background:#fff;color:#333}
+.f .hint{font-weight:400;color:#595959;font-size:11px}
+.btn{display:inline-block;background:#1e8449;color:#fff;border:1px solid #1e8449;border-radius:6px;padding:8px 16px;text-decoration:none;font-weight:600;cursor:pointer;white-space:nowrap}
+.btn:hover{color:#fff;background:#196f3d}
+.btn[disabled]{background:#9db8a8;border-color:#9db8a8;cursor:not-allowed}
+.btn2{display:inline-block;background:#fff;color:#333;border:1px solid #c8c8c8;border-radius:6px;padding:8px 16px;text-decoration:none;cursor:pointer;white-space:nowrap}
+.btn2:hover{background:#f5f5f5;color:#333}
+.btnr{display:inline-block;background:#fff;color:#a61b1b;border:1px solid #d9a3a3;border-radius:6px;padding:8px 16px;cursor:pointer;white-space:nowrap}
+.btns{padding:4px 10px;font-size:12px}
+.tbl{overflow-x:auto;border:1px solid #e5e5e5;border-radius:4px}
+table{width:100%;border-collapse:collapse}
+th{color:#1e7a46;text-align:left;font-weight:700;font-size:12px;padding:10px;border-bottom:2px solid #d5ead9;white-space:nowrap;background:#fff}
+td{padding:10px;border-bottom:1px solid #eee;vertical-align:top}
+td.n,th.n{text-align:right;white-space:nowrap}
+tr.sel{background:#f4faf6}
+tr.click{cursor:pointer}tr.click:hover{background:#f7f7f7}
+.empty{text-align:center;color:#595959;background:#f4faf6}
+.tag{display:inline-block;padding:2px 9px;border-radius:10px;font-size:11px;font-weight:600;white-space:nowrap}
+.t-g{background:#e3f4e8;color:#145a32}.t-a{background:#fdf0dc;color:#7a4b00}.t-b{background:#e6effa;color:#1d4f91}.t-r{background:#fbe7e7;color:#8a1f1f}.t-n{background:#eee;color:#444}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(400px,1fr));gap:22px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+.card{border:1px solid #e0e0e0;border-radius:6px;padding:16px 18px;background:#fff}
+.card h3{margin:0 0 10px;font-size:14px;font-weight:700;color:#1b1b1b}
+.dl{display:grid;grid-template-columns:minmax(140px,auto) 1fr;gap:8px 16px;margin:0}
+.dl dt{color:#595959;font-size:12px}.dl dd{margin:0;font-weight:600}
+.bar{height:10px;background:#e9e9e9;border-radius:5px;overflow:hidden;position:relative}
+.bar > div{height:100%;background:#1e8449;transition:width .3s}
+.bar .mark{position:absolute;top:-3px;bottom:-3px;width:2px;background:#1b1b1b}
+.steps{display:flex;flex-wrap:wrap;margin:6px 0 4px}
+.steps div{flex:1 1 120px;padding:10px 12px;border-top:4px solid #ddd;font-size:12px;color:#595959}
+.steps div.done{border-top-color:#1e8449;color:#145a32}
+.steps div.cur{border-top-color:#d68910;color:#7a4b00;font-weight:700}
+.note{background:#fdf6e7;border:1px solid #f0d9a8;border-radius:4px;padding:10px 14px;color:#5c3d00;font-size:12px;line-height:1.6}
+.ok{background:#eaf6ee;border:1px solid #bfe3cb;border-radius:4px;padding:10px 14px;color:#145a32;font-size:12px;line-height:1.6}
+.err{background:#fbecec;border:1px solid #efc2c2;border-radius:4px;padding:10px 14px;color:#8a1f1f;font-size:12px;line-height:1.6}
+.mono{font-family:Consolas,'Courier New',monospace;font-size:12px}
+.actions{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;margin-top:14px}
+.tabs{display:flex;border-bottom:1px solid #ddd;margin:20px 0 14px;flex-wrap:wrap}
+.tabs a{padding:10px 18px;text-decoration:none;color:#595959;border-bottom:3px solid transparent;font-weight:600}
+.tabs a.on{color:#145a32;border-bottom-color:#1e8449}
+.seg{display:flex;background:#eee;border-radius:16px;padding:3px;width:max-content;max-width:100%;flex-wrap:wrap}
+.seg button{padding:6px 14px;border-radius:13px;border:0;background:none;color:#333;font-size:12px;cursor:pointer}
+.seg button.on{background:#1e8449;color:#fff;font-weight:600}
+.lf{display:flex;flex-direction:column;gap:6px;border:1px solid #ddd;border-radius:4px;padding:10px 12px;background:#fff}
+.lf span{font-size:11px;font-weight:700;letter-spacing:.04em}
+.lf input{border:0;font:inherit;font-size:15px;color:#263445;outline:none;padding:2px 0;background:transparent}
+#toast{position:fixed;right:20px;bottom:20px;display:flex;flex-direction:column;gap:8px;z-index:50}
+#toast div{background:#1b1b1b;color:#fff;padding:12px 16px;border-radius:6px;max-width:380px;box-shadow:0 4px 14px rgba(0,0,0,.2);font-size:13px;line-height:1.5}
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;z-index:40;padding:20px}
+.modal{background:#fff;border-radius:8px;max-width:480px;width:100%;padding:22px 24px;box-shadow:0 10px 40px rgba(0,0,0,.3)}
+.modal h3{margin:0 0 12px;font-size:17px;font-weight:600}
+.cert{border:1px solid #c8c8c8;border-radius:6px;padding:26px 28px;background:#fff;display:flex;flex-direction:column;gap:14px}
+.qty{width:100px;font:inherit;padding:5px 7px;border:1px solid #c8c8c8;border-radius:3px;text-align:right}
+footer{border-top:1px solid #e5e5e5;padding:14px 24px;font-size:12px;color:#595959;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="toast" aria-live="polite"></div>
+<div id="modal"></div>
+<script>
+// ---------- data ----------
+const LOGO = '<svg width="34" height="34" viewBox="0 0 40 40" aria-hidden="true"><rect x="1" y="1" width="38" height="38" rx="8" fill="none" stroke="#1e8449" stroke-width="2"/><path d="M12 27c0-9 7-15 17-15-1 10-7 16-15 16" fill="none" stroke="#1e8449" stroke-width="2.2" stroke-linecap="round"/><path d="M12 28l9-9" stroke="#1e8449" stroke-width="2.2" stroke-linecap="round"/></svg>';
+let clock = new Date('2026-11-20T21:30:00');
+function now(){ clock = new Date(clock.getTime() + 3*60000); return clock.toLocaleString('en-GB',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}); }
+
+const S = {
+  role: null, loginRole: 'admin',
+  policy: { cap: 20, intl: 50, minVintage: 2022, version: 1, history: [{v:1, at:'01 Jan 2026', by:'NRES', note:'Initial parameters (sample)'}] },
+  stats: { issued: 4812560, retired: 487946, levyRetired: 152880, onBcx: 412300, cancelled: 6100, itmo: 0 },
+  filters: { q:'', state:'', prog:'' },
+  accounts: [
+    { no:'ACC-0151', holder:'Sample Logistics Bhd', type:'Holding', reps:'2 of 2 submitted', bal:0, kyc:'Under review', status:'Pending KYC' },
+    { no:'ACC-0012', holder:'Sample Forest Holdings Sdn Bhd', type:'Holding', reps:'3 active', bal:531600, kyc:'Verified', status:'Active' },
+    { no:'ACC-0002', holder:'Bursa Carbon Exchange', type:'Exchange custody', reps:'4 active', bal:412300, kyc:'Verified', status:'Active' },
+    { no:'ACC-0143', holder:'Sample Cement Bhd', type:'Holding', reps:'2 active', bal:34000, kyc:'Verified', status:'Active' },
+    { no:'ACC-0061', holder:'Sample Trading House Ltd (Singapore)', type:'Holding · foreign', reps:'2 active', bal:22000, kyc:'Renewal due', status:'Suspended – pending clarification' }
+  ],
+  projects: [
+    { no:'NCR-PRJ-SBH-0012', name:'Ulu Segama Forest Restoration', prop:'Sample Forest Holdings Sdn Bhd', state:'Sabah', sector:'Forestry', prog:'FCO', issued:720000, retired:88400, use:'Not authorised', stage:'Registered', est:100000 },
+    { no:'NCR-PRJ-PHG-0007', name:'Pahang Peatland Conservation', prop:'Sample Peat Trust Bhd', state:'Pahang', sector:'Forestry', prog:'Verra VCS', issued:915200, retired:61000, use:'NDC · Singapore (requested)', stage:'Registered', est:150000 },
+    { no:'NCR-PRJ-JHR-0021', name:'Palm Oil Mill Biogas Capture', prop:'Sample Agro Energy Sdn Bhd', state:'Johor', sector:'Waste', prog:'Gold Standard', issued:212000, retired:19200, use:'Not authorised', stage:'Registered', est:48000 },
+    { no:'NCR-PRJ-KDH-0015', name:'Rooftop Solar Aggregation Programme', prop:'Sample Solar Aggregator Sdn Bhd', state:'Kedah', sector:'Energy', prog:'Verra VCS', issued:88500, retired:12300, use:'CORSIA (OIMP)', stage:'Registered', est:20000 },
+    { no:'NCR-PRJ-SWK-0003', name:'Kemena Mangrove Blue Carbon', prop:'Sample Coastal Cooperative', state:'Sarawak', sector:'Forestry', prog:'FCO', issued:0, retired:0, use:'—', stage:'NRES decision', est:42000, due:'25 Nov 2026' },
+    { no:'NCR-PRJ-SBH-0029', name:'Kinabatangan Corridor REDD+', prop:'Sample Wildlife Trust', state:'Sabah', sector:'Forestry', prog:'FCO', issued:0, retired:0, use:'—', stage:'State consent', est:180000, due:'02 Dec 2026' },
+    { no:'NCR-PRJ-PRK-0031', name:'Ipoh Landfill Gas Capture', prop:'Sample Waste Services Bhd', state:'Perak', sector:'Waste', prog:'Verra VCS', issued:0, retired:0, use:'—', stage:'Validation', est:65000 },
+    { no:'NCR-PRJ-TRG-0034', name:'Kerteh CO₂ Storage Pilot', prop:'Sample Energy Bhd', state:'Terengganu', sector:'CCUS', prog:'Malaysia Domestic Standard', issued:0, retired:0, use:'—', stage:'Submitted', est:0, due:'27 Nov 2026' }
+  ],
+  selProject: 'NCR-PRJ-SWK-0003',
+  issuances: [
+    { id:'ISS-2026-0118', project:'NCR-PRJ-SBH-0012', pname:'Ulu Segama Forest Restoration', period:'Jan – Dec 2025', verified:100000, buffer:15, fee:'Paid · FPX', status:'Checker approval', acc:'ACC-0012 Sample Forest Holdings', prefix:'MY-FCO-SBH-0012-2025-004', valid:'31 Dec 2030' },
+    { id:'ISS-2026-0121', project:'NCR-PRJ-JHR-0021', pname:'Palm Oil Mill Biogas Capture', period:'Jul 2025 – Jun 2026', verified:48200, buffer:0, fee:'Invoice issued', status:'Awaiting fee', acc:'ACC-0044 Sample Agro Energy', prefix:'MY-GS-JHR-0021-2026-003', valid:'31 Dec 2031' }
+  ],
+  selIssuance: 'ISS-2026-0118',
+  auth: { id:'AUT-2026-0004', holder:'Sample Peat Trust Bhd (ACC-0031)', qty:50000, status:'Pending', approved:0 },
+  ca: [],
+  imports: [
+    { id:'IMP-VCS-0031', origin:'VCS · VCU block 1–8,500', ncr:'MY-VCS-KDH-0015-2025-001-0000001–0008500', qty:8500, lock:'Waiting for Verra confirmation' },
+    { id:'IMP-GS-0009', origin:'GS · block 1–12,000', ncr:'MY-GS-JHR-0021-2025-002-0000001–0012000', qty:12000, lock:'Confirmed' }
+  ],
+  holder: { acc:'ACC-0143', name:'Sample Cement Bhd', rep:'Lim Wei Ming' },
+  blocks: [
+    { id:'b1', prog:'FCO', intl:false, vintage:2025, project:'NCR-PRJ-SBH-0012 Ulu Segama, Sabah', prefix:'MY-FCO-SBH-0012-2025-003', start:50001, end:62000, valid:'31 Dec 2030', auth:false },
+    { id:'b2', prog:'Gold Standard', intl:true, vintage:2025, project:'NCR-PRJ-JHR-0021 Palm oil mill biogas, Johor', prefix:'MY-GS-JHR-0021-2025-002', start:1001, end:6000, valid:'31 Dec 2030', auth:false },
+    { id:'b3', prog:'Verra VCS', intl:true, vintage:2024, project:'NCR-PRJ-PHG-0007 Pahang Peatland', prefix:'MY-VCS-PHG-0007-2024-001', start:200001, end:215000, valid:'31 Dec 2029', auth:false },
+    { id:'b4', prog:'FCO', intl:false, vintage:2020, project:'NCR-PRJ-SBH-0009 Tawau Hills, Sabah', prefix:'MY-FCO-SBH-0009-2020-001', start:12001, end:14000, valid:'31 Dec 2026', auth:false }
+  ],
+  lots: [
+    { id:'L-2207', prog:'FCO', intl:false, vintage:2025, where:'Ulu Segama, Sabah', seller:'Sample Forest Holdings', prefix:'MY-FCO-SBH-0012-2025-004', start:40001, qty:30000, price:45, valid:'31 Dec 2030', project:'NCR-PRJ-SBH-0012 Ulu Segama, Sabah' },
+    { id:'L-2198', prog:'Verra VCS', intl:true, vintage:2024, where:'Pahang Peatland', seller:'Sample Peat Trust', prefix:'MY-VCS-PHG-0007-2024-002', start:1, qty:12000, price:38.5, valid:'31 Dec 2029', project:'NCR-PRJ-PHG-0007 Pahang Peatland' },
+    { id:'L-2190', prog:'Gold Standard', intl:true, vintage:2025, where:'Palm oil mill biogas, Johor', seller:'Sample Agro Energy', prefix:'MY-GS-JHR-0021-2025-002', start:20001, qty:8000, price:52, valid:'31 Dec 2030', project:'NCR-PRJ-JHR-0021 Palm oil mill biogas, Johor' },
+    { id:'L-2186', prog:'FCO', intl:false, vintage:2023, where:'Kinabatangan, Sabah', seller:'Sample Wildlife Trust', prefix:'MY-FCO-SBH-0020-2023-001', start:5001, qty:5500, price:41, valid:'31 Dec 2028', project:'NCR-PRJ-SBH-0020 Kinabatangan, Sabah' }
+  ],
+  trade: { lot:'L-2207', qty:3000, method:'FPX online banking' },
+  tx: [
+    { t:'20 Nov 20:41', type:'Retirement · Carbon Levy', from:'Sample Cement Bhd', to:'Levy surrender account', serial:'MY-FCO-SBH-0012-2025-003-0040001–0045000', qty:5000, amt:null, pay:'—', status:'Retired', mine:true },
+    { t:'20 Nov 18:05', type:'Trade settlement (BCX)', from:'Sample Forest Holdings', to:'Sample Steel Sdn Bhd', serial:'MY-FCO-SBH-0012-2025-003-0030001–0040000', qty:10000, amt:null, pay:'BCX', status:'Completed', mine:false },
+    { t:'14 Nov 10:12', type:'Purchase', from:'Sample Agro Energy', to:'Sample Cement Bhd', serial:'MY-GS-JHR-0021-2025-002-0001001–0006000', qty:5000, amt:260500, pay:'Paid', status:'Delivered', mine:true }
+  ],
+  ret: { block:'b1', qty:3000, purpose:'Voluntary claim (corporate net-zero / carbon-neutral)', ben:'Sample Cement Bhd', period:'Calendar year 2026', claim:'Offsetting Scope 1 emissions of the Kanthan plant, reporting year 2026.', cert:null, seq:4512 },
+  levy: { emissions:120000, surrendered:5000, surrIntl:0, sel:{}, done:[] },
+  expiring: [
+    { acc:'ACC-0143 Sample Cement Bhd', serial:'MY-FCO-SBH-0009-2020-001-0012001–0014000', qty:2000, valid:'31 Dec 2026', cls:'r', last:'01 Nov · email + SMS' },
+    { acc:'ACC-0098 Sample Steel Sdn Bhd', serial:'MY-VCS-PHG-0007-2021-002-0050001–0060000', qty:10000, valid:'31 Jan 2027', cls:'a', last:'02 Nov · email' },
+    { acc:'ACC-0061 Sample Trading House Ltd', serial:'MY-FCO-SBH-0012-2021-001-0100001–0106400', qty:6400, valid:'15 Feb 2027', cls:'a', last:'—' }
+  ],
+  log: []
+};
+
+// ---------- helpers ----------
+const nf = n => Number(n).toLocaleString('en-US');
+const rm = n => 'RM ' + Number(n).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+const pad = n => String(n).padStart(7,'0');
+const qtyOf = b => b.end - b.start + 1;
+const ser = (p,s,e) => `${p}-${pad(s)}–${pad(e)}`;
+const tag = (t,c) => `<span class="tag t-${c}">${t}</span>`;
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function toast(msg){ const box=document.getElementById('toast'); while(box.children.length>=2) box.firstChild.remove(); const d=document.createElement('div'); d.innerHTML=msg; box.appendChild(d); setTimeout(()=>d.remove(),3000); }
+function log(who, what){ S.log.unshift({t:now(), who, what}); }
+function modal(html){ document.getElementById('modal').innerHTML = html ? `<div class="modal-bg" role="dialog" aria-modal="true"><div class="modal">${html}</div></div>` : ''; }
+function take(block, qty){ const s=block.start; block.start += qty; return [s, s+qty-1]; }
+
+// ---------- routing ----------
+const ADMIN = ['dashboard','accounts','projects','issuance','transfers','reports'];
+const HOLDER = ['trading','retirement','levy'];
+const TITLES = { dashboard:'Registry Dashboard', accounts:'Accounts & KYC', projects:'Project Registration', issuance:'CCU Issuance', transfers:'Transfers, Article 6 & International Credit Link', reports:'Reporting, Validity & Policy', trading:'Trading & Online Payment', retirement:'CCU Retirement', levy:'Carbon Levy Offset' };
+// Navigation lives in page state only: the artifact viewer owns the URL hash, so it is never used for routing.
+let CUR = 'public';
+function view(){ return CUR; }
+function go(v){ CUR = v; render(); try{ window.scrollTo(0,0); }catch(e){} }
+
+// ---------- shell ----------
+function pending(){
+  return {
+    accounts: S.accounts.filter(a=>a.status==='Pending KYC').length,
+    projects: S.projects.filter(p=>['NRES decision','Submitted','State consent'].includes(p.stage)).length,
+    issuance: S.issuances.filter(i=>i.status!=='Issued' && i.status!=='Rejected').length,
+    transfers: (S.auth.status==='Pending'?1:0) + S.imports.filter(i=>i.lock!=='Confirmed').length
+  };
+}
+function shell(v, body, actions=''){
+  const p = pending();
+  const admin = S.role==='admin';
+  const nav = admin ? [
+    ['REGISTRY OPERATIONS', [['dashboard','Dashboard'],['accounts','Accounts &amp; KYC',p.accounts],['projects','Project Registration',p.projects],['issuance','CCU Issuance',p.issuance],['transfers','Transfers &amp; Article 6',p.transfers]]],
+    ['INSIGHT', [['reports','Reporting, Validity &amp; Policy'],['public','Public registry view']]]
+  ] : [
+    ['MY ACCOUNT · '+S.holder.acc, [['trading','Trading &amp; Payment'],['retirement','CCU Retirement'],['levy','Carbon Levy Offset']]],
+    ['INSIGHT', [['public','Public registry view']]]
+  ];
+  const navh = nav.map(([h,items])=>`<div class="side-h">${h}</div>`+items.map(([k,l,c])=>`<a data-act="go" data-v="${k}" class="${k===v?'on':''}" ${k===v?'aria-current="page"':''}>${l}${c?`<span class="cnt">${c}</span>`:''}</a>`).join('')).join('');
+  const who = admin ? 'Nur Aisyah · Registry Administrator, NRES' : `${S.holder.rep} · Authorised Representative, ${S.holder.name}`;
+  return `
+  <div class="topbar"><span>National Carbon Registry · Malaysia ${tag('Interactive prototype · sample data','a')}</span>
+    <span style="display:flex;gap:16px;align-items:center">Welcome, ${who}
+    <button class="link" data-act="switch">Switch role</button><button class="link" data-act="signout">Sign out</button></span></div>
+  <header class="brand"><a class="logo" data-act="go" data-v="${admin?'dashboard':'trading'}">${LOGO}<span><span style="display:block;font-size:17px;font-weight:600">National Carbon Registry</span><span style="display:block;font-size:11px;color:#595959">CCU Registry · ${admin?'Administration':'Account holder portal'}</span></span></a>
+    <span style="font-size:12px;color:#595959">Policy v${S.policy.version} · offset cap ${S.policy.cap}% · international threshold ${S.policy.intl}%</span></header>
+  <div class="ptitle"><div><div class="crumb">Home / ${esc(TITLES[v])}</div><h1>${esc(TITLES[v])}</h1></div><div style="display:flex;gap:10px;flex-wrap:wrap">${actions}</div></div>
+  <div class="shell"><nav class="side" aria-label="Registry modules">${navh}</nav><main class="main">${body}</main></div>`;
+}
+
+// ---------- public ----------
+function projRows(){
+  const f=S.filters, q=f.q.toLowerCase();
+  const rows = S.projects.filter(p=>p.stage==='Registered' || p.stage==='Validation' || p.stage==='NRES decision')
+    .filter(p=>!q || (p.name+p.prop+p.no).toLowerCase().includes(q))
+    .filter(p=>!f.state || p.state===f.state).filter(p=>!f.prog || p.prog===f.prog);
+  if(!rows.length) return `<tr><td colspan="9" class="empty">No projects match these filters.</td></tr>`;
+  return rows.map(p=>`<tr><td class="mono">${p.no}</td><td>${p.name}</td><td>${p.prop}</td><td>${p.state}</td><td>${p.sector}</td><td>${p.prog}</td><td class="n">${p.issued?nf(p.issued):'—'}</td><td class="n">${p.retired?nf(p.retired):'—'}</td><td>${p.stage==='Registered'?tag(p.use, p.use.startsWith('Not')?'n':'b'):tag(p.stage==='Validation'?'Under validation':'Pending registration','a')}</td></tr>`).join('');
+}
+function vPublic(){
+  const st=S.stats, avail = st.issued - st.retired - st.cancelled - st.itmo;
+  return `
+  <div class="topbar"><span>Official registry of the Government of Malaysia · NRES ${tag('Interactive prototype · sample data','a')}</span><span>Bahasa Melayu | <b>English</b></span></div>
+  <header class="brand"><a class="logo" data-act="go" data-v="public">
+    <span role="img" aria-label="Agency logo placeholder" style="width:42px;height:42px;border-radius:50%;background:#eee;border:1px dashed #999;display:flex;align-items:center;justify-content:center;font-size:9px;color:#595959;text-align:center;line-height:1.1">Agency<br>logo</span>${LOGO}
+    <span><span style="display:block;font-size:20px;font-weight:600">National Carbon Registry</span><span style="display:block;font-size:12px;color:#595959">Malaysia · Carbon Credit Unit (CCU) Registry</span></span></a>
+    <nav class="pubnav"><a data-act="go" data-v="public" style="font-weight:700;color:#145a32;background:#e8f5ee">Registry</a><a data-act="go" data-v="public">Projects</a><a data-act="go" data-v="public">Retirements</a><a data-act="go" data-v="public">Article 6</a>
+    ${S.role?`<a class="btn" data-act="go" data-v="${S.role==='admin'?'dashboard':'trading'}">Back to my console</a>`:`<a class="btn" data-act="go" data-v="login">Sign in</a>`}</nav></header>
+  <section style="background:#f3f3f3;border-bottom:1px solid #e5e5e5"><div class="wrap" style="padding-top:26px;padding-bottom:26px">
+    <h1 style="margin:0;font-size:28px;font-weight:300;color:#1b1b1b">One national ledger for every carbon credit unit in Malaysia</h1>
+    <p style="margin:8px 0 0;max-width:760px;color:#4a4a4a;line-height:1.6">Search registered projects, CCU issuances, retirements and Article 6 transfers. Every unit carries a unique serial number, its origin programme and its corresponding-adjustment status. Figures update live as you use the console.</p></div></section>
+  <main class="wrap">
+    <h2 class="sec">Registry at a glance</h2>
+    <div class="kpis">
+      <div class="kpi"><div class="l">Issued</div><div class="v">${nf(st.issued)}</div><div class="s">tCO₂e · all programmes</div></div>
+      <div class="kpi"><div class="l">Available</div><div class="v">${nf(avail)}</div><div class="s">tCO₂e in accounts</div></div>
+      <div class="kpi"><div class="l">Listed on Bursa Carbon Exchange</div><div class="v">${nf(st.onBcx)}</div><div class="s">tCO₂e locked for trading</div></div>
+      <div class="kpi"><div class="l">Retired</div><div class="v">${nf(st.retired)}</div><div class="s">incl. ${nf(st.levyRetired)} for Carbon Levy</div></div>
+      <div class="kpi"><div class="l">Cancelled / expired</div><div class="v">${nf(st.cancelled)}</div><div class="s">tCO₂e</div></div>
+      <div class="kpi"><div class="l">Internationally transferred</div><div class="v">${nf(st.itmo)}</div><div class="s">ITMOs · first transfer</div></div>
+    </div>
+    <h2 class="sec">Search the registry</h2>
+    <form class="panel" onsubmit="return false">
+      <label class="f">Keyword<input data-in="q" value="${esc(S.filters.q)}" placeholder="Project, proponent or registry no."></label>
+      <label class="f">State<select data-in="state"><option value="">All states</option>${['Sabah','Sarawak','Pahang','Johor','Kedah','Perak'].map(s=>`<option ${S.filters.state===s?'selected':''}>${s}</option>`).join('')}</select></label>
+      <label class="f">Programme<select data-in="prog"><option value="">All programmes</option>${['FCO','Verra VCS','Gold Standard','Malaysia Domestic Standard'].map(s=>`<option ${S.filters.prog===s?'selected':''}>${s}</option>`).join('')}</select></label>
+      <div style="display:flex;gap:10px;align-items:flex-end;justify-content:flex-end"><button type="button" class="btn2" data-act="resetFilters">Reset</button></div>
+    </form>
+    <div class="tbl" style="margin-top:16px"><table><thead><tr><th>Registry No.</th><th>Project</th><th>Proponent</th><th>State</th><th>Sector</th><th>Programme</th><th class="n">Issued</th><th class="n">Retired</th><th>Status / authorised use</th></tr></thead><tbody id="projRows">${projRows()}</tbody></table></div>
+    <h2 class="sec">Latest retirements</h2>
+    <div class="tbl"><table><thead><tr><th>Time</th><th>Beneficiary</th><th>Purpose</th><th>Serial block</th><th class="n">tCO₂e</th></tr></thead><tbody>
+    ${S.tx.filter(t=>t.type.startsWith('Retirement')).slice(0,6).map(t=>`<tr><td>${t.t}</td><td>${t.from}</td><td>${t.type.replace('Retirement · ','')}</td><td class="mono">${t.serial}</td><td class="n">${nf(t.qty)}</td></tr>`).join('')}
+    </tbody></table></div>
+  </main>
+  <footer><span>National Carbon Registry · interactive prototype v1 · for discussion</span><span>All names and figures are sample data</span></footer>`;
+}
+
+// ---------- login ----------
+function vLogin(){
+  const r=S.loginRole;
+  return `<div style="min-height:100vh;background:#f7faf8;display:flex;flex-direction:column;align-items:center;padding:48px 20px 28px">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:10px">
+      <span role="img" aria-label="Agency logo placeholder" style="width:60px;height:60px;border-radius:50%;background:#eee;border:1px dashed #999;display:flex;align-items:center;justify-content:center;font-size:10px;color:#595959;text-align:center;line-height:1.1">Agency<br>logo</span>
+      <div style="font-size:26px;font-weight:600;color:#1b1b1b;display:flex;align-items:center;gap:10px">${LOGO} National Carbon Registry</div>
+      <div style="color:#595959">Malaysia · Carbon Credit Unit (CCU) Registry</div></div>
+    <form style="width:100%;max-width:440px;margin-top:28px;display:flex;flex-direction:column;gap:14px" onsubmit="return false" aria-label="Sign in">
+      <div style="font-size:14px">Sign in to your registry account</div>
+      <div class="note">Prototype: pick whose console to open. Credentials are not checked.</div>
+      <div class="seg" role="group" aria-label="Sign in as"><button type="button" data-act="loginRole" data-r="admin" class="${r==='admin'?'on':''}">Registry Administrator (NRES)</button><button type="button" data-act="loginRole" data-r="holder" class="${r==='holder'?'on':''}">Account holder (Sample Cement Bhd)</button></div>
+      <label class="lf"><span>${r==='admin'?'GOVERNMENT OFFICER ID':'MYKAD NUMBER'}</span><input value="${r==='admin'?'NRES-ADM-0007':'800101-14-5xxx'}"></label>
+      <label class="lf"><span>PASSWORD</span><input type="password" value="prototype"></label>
+      <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px"><button class="btn" data-act="login">Sign in</button><button type="button" class="btn2" data-act="go" data-v="public">Back to public registry</button></div>
+      <div style="background:#f0f0f0;border-radius:6px;padding:14px;text-align:center;display:flex;flex-direction:column;gap:8px">
+        <b>Or sign in with a national digital identity</b>
+        <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap"><button type="button" class="btn2 btns" data-act="login">MyDigital ID</button><button type="button" class="btn2 btns" data-act="login">SarawakPass</button></div>
+        <div style="font-size:12px;color:#595959">An OTP is required for issuance, transfer, payment and retirement actions.</div></div>
+    </form></div>`;
+}
+
+// ---------- admin: dashboard ----------
+function vDashboard(){
+  const st=S.stats, p=pending(), q=[];
+  S.accounts.filter(a=>a.status==='Pending KYC').forEach(a=>q.push(['Account / KYC','n',a.no,a.holder,'27 Nov 2026','accounts']));
+  S.projects.filter(x=>x.stage==='NRES decision').forEach(x=>q.push(['Project registration','g',x.no,x.prop,x.due,'projects']));
+  S.issuances.filter(i=>i.status==='Checker approval').forEach(i=>q.push(['Issuance','b',i.id,i.acc,'Overdue 1 day','issuance']));
+  if(S.auth.status==='Pending') q.push(['Art. 6 authorisation','b',S.auth.id,'Sample Peat Trust','Overdue 2 days','transfers']);
+  S.imports.filter(i=>i.lock!=='Confirmed').forEach(i=>q.push(['VCS import','a',i.id,'Sample Solar Aggregator','28 Nov 2026','transfers']));
+  const capT = S.levy.emissions; // demo entity only; sector totals static
+  return shell('dashboard', `
+    <h2 class="sec">Today</h2>
+    <div class="kpis">
+      <div class="kpi"><div class="l">CCU issued (all time)</div><div class="v">${nf(st.issued)}</div><div class="s">tCO₂e</div></div>
+      <div class="kpi"><div class="l">Retired</div><div class="v">${nf(st.retired)}</div><div class="s">${nf(st.levyRetired)} used for Carbon Levy</div></div>
+      <div class="kpi"><div class="l">Pending approvals</div><div class="v" style="color:#7a4b00">${q.length}</div><div class="s">across all queues</div></div>
+      <div class="kpi"><div class="l">Internationally transferred</div><div class="v">${nf(st.itmo)}</div><div class="s">ITMOs with CA applied</div></div>
+      <div class="kpi"><div class="l">Active accounts</div><div class="v">${S.accounts.filter(a=>a.status==='Active').length + 137}</div><div class="s">${p.accounts} awaiting KYC</div></div>
+    </div>
+    <div class="grid2">
+      <section><h2 class="sec">Approval queue</h2>
+        <div class="tbl"><table><thead><tr><th>Type</th><th>Reference</th><th>Applicant</th><th>Due</th><th></th></tr></thead><tbody>
+        ${q.length? q.map(r=>`<tr><td>${tag(r[0],r[1])}</td><td class="mono">${r[2]}</td><td>${r[3]}</td><td>${r[4].startsWith('Overdue')?tag(r[4],'r'):r[4]}</td><td><a data-act="go" data-v="${r[5]}">Review</a></td></tr>`).join('') : `<tr><td colspan="5" class="empty">Queue is clear.</td></tr>`}
+        </tbody></table></div></section>
+      <section><h2 class="sec">Activity log (this session)</h2>
+        <div class="tbl"><table><thead><tr><th>Time</th><th>By</th><th>Action</th></tr></thead><tbody>
+        ${S.log.length? S.log.slice(0,8).map(l=>`<tr><td style="white-space:nowrap">${l.t}</td><td>${l.who}</td><td>${l.what}</td></tr>`).join('') : `<tr><td colspan="3" class="empty">Actions you take in either console appear here.</td></tr>`}
+        </tbody></table></div></section>
+    </div>
+    <h2 class="sec">Latest registry transactions</h2>
+    <div class="tbl"><table><thead><tr><th>Time</th><th>Transaction</th><th>From</th><th>To</th><th>Serial block</th><th class="n">Qty</th><th>Status</th></tr></thead><tbody>
+    ${S.tx.slice(0,8).map(t=>`<tr><td>${t.t}</td><td>${t.type}</td><td>${t.from}</td><td>${t.to}</td><td class="mono">${t.serial}</td><td class="n">${nf(t.qty)}</td><td>${tag(t.status, t.status==='Locked'?'a':'g')}</td></tr>`).join('')}
+    </tbody></table></div>`, `<button class="btn" data-act="go" data-v="reports">Open reports</button>`);
+}
+
+// ---------- admin: accounts ----------
+function vAccounts(){
+  const a = S.accounts.find(x=>x.no==='ACC-0151');
+  const statusTag = s => s==='Active'?tag(s,'g'):s==='Pending KYC'?tag(s,'a'):tag(s,'r');
+  const decided = a.status!=='Pending KYC';
+  return shell('accounts', `
+    <h2 class="sec">Account structure</h2>
+    <div class="grid3">
+      <div class="card"><h3>Government &amp; system</h3>Issuance (pending) · National holding · Buffer pool per programme · Administrative &amp; expiry cancellation</div>
+      <div class="card"><h3>State</h3>State holding · State share (where state law applies) · Sabah, Sarawak node sync</div>
+      <div class="card"><h3>Participants</h3>Holding (proponents, buyers, intermediaries) · Exchange custody (Bursa Carbon Exchange)</div>
+      <div class="card"><h3>Use &amp; retirement</h3>Voluntary retirement · Carbon Levy surrender · Domestic NDC retirement</div>
+      <div class="card"><h3>Article 6</h3>First-transfer (authorised) · OIMP/CORSIA use cancellation · Outbound to partner registry</div>
+      <div class="card"><h3>Verifiers</h3>Review-only roles for accredited validation &amp; verification bodies</div>
+    </div>
+    <h2 class="sec">Accounts</h2>
+    <div class="tbl"><table><thead><tr><th>Account no.</th><th>Holder</th><th>Type</th><th>Representatives</th><th class="n">Balance (tCO₂e)</th><th>KYC</th><th>Status</th></tr></thead><tbody>
+    ${S.accounts.map(x=>`<tr class="${x.no==='ACC-0151'&&!decided?'sel':''}"><td class="mono">${x.no}</td><td>${x.holder}</td><td>${x.type}</td><td>${x.reps}</td><td class="n">${nf(x.bal)}</td><td>${tag(x.kyc, x.kyc==='Verified'?'g':'a')}</td><td>${statusTag(x.status)}</td></tr>`).join('')}
+    </tbody></table></div>
+    <h2 class="sec">KYC review · ${a.no} ${a.holder}</h2>
+    <div class="steps"><div class="done">1 · Organisation details</div><div class="done">2 · Authorised representatives</div><div class="${decided?'done':'cur'}">3 · KYC documents &amp; screening</div><div class="${decided?'done':''}">4 · Administrator decision</div><div class="${a.status==='Active'?'done':''}">5 · Account active</div></div>
+    <div class="grid2" style="margin-top:12px">
+      <div class="card"><h3>Organisation &amp; representatives</h3><dl class="dl"><dt>Registered name</dt><dd>${a.holder}</dd><dt>SSM registration</dt><dd>2021010xxxxx</dd><dt>Primary representative</dt><dd>[Name] · MyDigital ID verified</dd><dt>Secondary representative</dt><dd>[Name] · MyDigital ID verified</dd><dt>Dual-approval rule</dt><dd>Transfers above 10,000 tCO₂e</dd></dl></div>
+      <div class="card"><h3>Documents &amp; screening</h3><dl class="dl"><dt>SSM company profile</dt><dd>${tag('Verified','g')}</dd><dt>Board resolution</dt><dd>${tag('Verified','g')}</dd><dt>Beneficial ownership</dt><dd>${tag('Verified','g')}</dd><dt>Sanctions &amp; AML</dt><dd>${tag('No match','g')}</dd><dt>Duplicate account</dt><dd>${tag('None found','g')}</dd></dl></div>
+    </div>
+    ${decided ? `<div class="${a.status==='Active'?'ok':'err'}" style="margin-top:14px">Decision recorded: ${a.status}. Both representatives have been notified.</div>` :
+    `<div class="actions"><button class="btnr" data-act="kyc" data-d="Rejected">Reject</button><button class="btn2" data-act="kyc" data-d="Suspended – pending clarification">Request clarification</button><button class="btn" data-act="kyc" data-d="Active">Approve &amp; activate account</button></div>`}`);
+}
+
+// ---------- admin: projects ----------
+function vProjects(){
+  const p = S.projects.find(x=>x.no===S.selProject);
+  const order = ['Submitted','State consent','Validation','NRES decision','Registered'];
+  const idx = order.indexOf(p.stage);
+  const stageTag = s => s==='Registered'?tag(s,'g'):s==='Rejected'?tag(s,'r'):tag(s,'a');
+  return shell('projects', `
+    <h2 class="sec">Pipeline</h2>
+    <div class="kpis">${order.map(s=>`<div class="kpi"><div class="l">${s}</div><div class="v">${S.projects.filter(x=>x.stage===s).length + (s==='Registered'?35:0)}</div></div>`).join('')}</div>
+    <h2 class="sec">Applications · click a row to open</h2>
+    <div class="tbl"><table><thead><tr><th>Registry no.</th><th>Project</th><th>Programme</th><th>Sector · State</th><th class="n">Est. tCO₂e / yr</th><th>Stage</th></tr></thead><tbody>
+    ${S.projects.filter(x=>x.stage!=='Registered' || x.no===S.selProject).map(x=>`<tr class="click ${x.no===S.selProject?'sel':''}" data-act="selProject" data-id="${x.no}"><td class="mono">${x.no}</td><td><a>${x.name}</a></td><td>${x.prog}</td><td>${x.sector} · ${x.state}</td><td class="n">${x.est?nf(x.est):'—'}</td><td>${stageTag(x.stage)}</td></tr>`).join('')}
+    </tbody></table></div>
+    <h2 class="sec">${p.no} · ${p.name}</h2>
+    <div class="steps">${order.map((s,i)=>`<div class="${i<idx||p.stage==='Registered'?'done':i===idx?'cur':''}">${s}</div>`).join('')}</div>
+    <div class="grid2" style="margin-top:12px">
+      <div class="card"><h3>Project</h3><dl class="dl"><dt>Proponent</dt><dd>${p.prop}</dd><dt>Programme</dt><dd>${p.prog}</dd><dt>Sector · state</dt><dd>${p.sector} · ${p.state}</dd><dt>Estimated reductions</dt><dd>${p.est?nf(p.est)+' tCO₂e / year':'[pending methodology]'}</dd><dt>State consent</dt><dd>${idx>1||p.stage==='Registered'?tag('Obtained','g'):tag('Awaiting state agency','a')}</dd><dt>Validation report</dt><dd>${idx>2||p.stage==='Registered'?tag('Positive','g'):tag('Not yet','n')}</dd></dl></div>
+      <div class="card"><h3>Location</h3><div role="img" aria-label="Map placeholder" style="height:170px;border-radius:4px;background:repeating-linear-gradient(45deg,#eef5f0,#eef5f0 10px,#e4efe8 10px,#e4efe8 20px);display:flex;align-items:center;justify-content:center;color:#595959;font-size:12px;border:1px solid #d5ead9">[Map · project boundary · ${p.state}]</div><div style="font-size:12px;color:#595959;margin-top:8px">Overlap check against registered projects: ${tag('No overlap','g')}</div></div>
+    </div>
+    ${p.stage==='NRES decision' ? `<div class="actions"><button class="btnr" data-act="projDecide" data-d="Rejected">Reject</button><button class="btn2" data-act="projDecide" data-d="Validation">Return to proponent</button><button class="btn" data-act="projDecide" data-d="Registered">Approve registration</button></div>`
+      : p.stage==='Registered' ? `<div class="ok" style="margin-top:14px">Registered. The project now appears on the public registry and can request issuance.</div>`
+      : p.stage==='Rejected' ? `<div class="err" style="margin-top:14px">Rejected. The decision note has been sent to the proponent.</div>`
+      : `<div class="actions"><button class="btn" data-act="projAdvance">Advance to next stage (simulate)</button></div>`}`);
+}
+
+// ---------- admin: issuance ----------
+function vIssuance(){
+  const i = S.issuances.find(x=>x.id===S.selIssuance);
+  const buf = Math.round(i.verified*i.buffer/100), net = i.verified-buf;
+  const st = s => s==='Issued'?tag(s,'g'):s==='Rejected'?tag(s,'r'):tag(s,'a');
+  return shell('issuance', `
+    <h2 class="sec">Issuance requests · click a row to open</h2>
+    <div class="tbl"><table><thead><tr><th>Request</th><th>Project</th><th>Monitoring period</th><th class="n">Verified tCO₂e</th><th>Fee</th><th>Status</th></tr></thead><tbody>
+    ${S.issuances.map(x=>`<tr class="click ${x.id===i.id?'sel':''}" data-act="selIss" data-id="${x.id}"><td class="mono">${x.id}</td><td>${x.project} ${x.pname}</td><td>${x.period}</td><td class="n">${nf(x.verified)}</td><td>${tag(x.fee, x.fee.startsWith('Paid')?'g':'a')}</td><td>${st(x.status)}</td></tr>`).join('')}
+    </tbody></table></div>
+    <h2 class="sec">${i.id} · issuance calculation</h2>
+    <div class="grid2">
+      <div class="card"><h3>Quantities</h3><div class="tbl" style="border:0"><table><tbody>
+        <tr><td>Verified emission reductions</td><td class="n"><b>${nf(i.verified)}</b></td></tr>
+        <tr><td>Non-permanence buffer · ${i.buffer}% → buffer pool</td><td class="n">− ${nf(buf)}</td></tr>
+        <tr class="sel"><td><b>Net CCU to ${i.acc}</b></td><td class="n"><b>${nf(net)}</b></td></tr></tbody></table></div></div>
+      <div class="card"><h3>Unit attributes</h3><dl class="dl"><dt>Valid until</dt><dd>${i.valid}</dd><dt>Authorised use</dt><dd>Not authorised · may be authorised later</dd><dt>Carbon Levy eligible</dt><dd>${tag('Yes','g')}</dd></dl></div>
+    </div>
+    <h2 class="sec">Serial numbers</h2>
+    <div class="tbl"><table><thead><tr><th>Destination</th><th>Serial block</th><th class="n">Units</th></tr></thead><tbody>
+      <tr><td>${i.acc}</td><td class="mono">${ser(i.prefix,1,net)}</td><td class="n">${nf(net)}</td></tr>
+      ${buf?`<tr><td>Buffer pool</td><td class="mono">${ser(i.prefix,net+1,i.verified)}</td><td class="n">${nf(buf)}</td></tr>`:''}
+    </tbody></table></div>
+    ${i.status==='Issued' ? `<div class="ok" style="margin-top:14px">Issued ${nf(i.verified)} CCU. Serial numbers are live, the proponent has been notified and the public registry is updated.</div>`
+      : i.status==='Rejected' ? `<div class="err" style="margin-top:14px">Rejected and returned to the proponent.</div>`
+      : i.status==='Awaiting fee' ? `<div class="note" style="margin-top:14px">The issuance fee has not been paid yet. Approval unlocks once the payment gateway confirms.</div><div class="actions"><button class="btn2" data-act="feePaid">Simulate fee payment (FPX)</button></div>`
+      : `<div class="card" style="margin-top:16px"><h3>Approval</h3><dl class="dl"><dt>Maker</dt><dd>Ahmad F. · prepared 17 Nov 2026</dd><dt>Checker</dt><dd>You</dd></dl>
+        <label class="f" style="margin-top:12px;max-width:240px">One-time password<input id="otp" placeholder="Enter any 6 digits"></label>
+        <div class="actions"><button class="btnr" data-act="issue" data-d="Rejected">Reject</button><button class="btn" data-act="issue" data-d="Issued">Approve &amp; issue ${nf(i.verified)} CCU</button></div></div>`}`);
+}
+
+// ---------- admin: transfers ----------
+function vTransfers(){
+  const a=S.auth;
+  return shell('transfers', `
+    <h2 class="sec">Transfer routes</h2>
+    <div class="tbl"><table><thead><tr><th>Route</th><th>Approval</th><th>Article 6 label</th><th>Corresponding adjustment</th></tr></thead><tbody>
+      <tr><td><b>Domestic</b> · account to account, BCX settlement</td><td>Two representatives above 10,000 tCO₂e</td><td>None</td><td>Not applied</td></tr>
+      <tr><td><b>State ↔ federal</b> · Sarawak / Sabah registries</td><td>Registry Administrator + state registry</td><td>None</td><td>Not applied</td></tr>
+      <tr><td><b>International · NDC</b> · bilateral Article 6.2 partner</td><td>NRES authorisation · NDC headroom check</td><td>Authorised · NDC · first-transfer flag</td><td>Applied on first transfer</td></tr>
+      <tr><td><b>International · OIMP</b> · CORSIA and others</td><td>NRES authorisation</td><td>Authorised · OIMP</td><td>Applied on use or cancellation</td></tr>
+      <tr><td><b>Inbound VCS / GS</b> · mirror of Malaysian-hosted units</td><td>Lock confirmed at origin registry</td><td>As at origin</td><td>Not applied unless authorised</td></tr>
+    </tbody></table></div>
+    <h2 class="sec">Article 6 authorisation · ${a.id}</h2>
+    <div class="grid2">
+      <div class="card"><h3>Request</h3><dl class="dl"><dt>Applicant</dt><dd>${a.holder}</dd><dt>Units</dt><dd>${nf(a.qty)} tCO₂e · Verra VCS mirrored · vintage 2024</dd><dt>Acquiring party</dt><dd>Singapore · bilateral 6.2 agreement</dd><dt>Authorised use</dt><dd>NDC</dd><dt>First transfer</dt><dd>First international transfer</dd><dt>Status</dt><dd>${a.status==='Pending'?tag('Pending decision','a'):a.status==='Declined'?tag('Declined','r'):tag('Authorised '+nf(a.approved),'g')}</dd></dl></div>
+      <div class="card"><h3>NDC headroom (sample)</h3><dl class="dl"><dt>Authorised to date</dt><dd>${nf(S.ca.reduce((s,c)=>s+c.qty,0))} tCO₂e</dd><dt>Ceiling set by NRES</dt><dd>[ceiling] tCO₂e</dd></dl>
+        ${a.status==='Pending'?`<label class="f" style="margin-top:12px;max-width:240px">Quantity to authorise<input id="authQty" value="${a.qty}"></label>
+        <div class="actions"><button class="btnr" data-act="auth" data-d="Declined">Decline</button><button class="btn" data-act="auth" data-d="Authorised">Authorise &amp; transfer</button></div>`
+        :`<div class="ok" style="margin-top:12px">${a.status==='Declined'?'Declined. The applicant has been notified.':'Letter of authorisation issued, units transferred to the Singapore registry and the corresponding adjustment recorded.'}</div>`}</div>
+    </div>
+    <h2 class="sec">Corresponding adjustment ledger</h2>
+    <div class="tbl"><table><thead><tr><th>Date</th><th>Authorisation</th><th>Acquiring party</th><th>Use</th><th class="n">tCO₂e</th><th>Serial block</th><th>Reported to UNFCCC</th></tr></thead><tbody>
+    ${S.ca.length?S.ca.map(c=>`<tr><td>${c.t}</td><td class="mono">${c.id}</td><td>Singapore</td><td>NDC</td><td class="n">${nf(c.qty)}</td><td class="mono">${c.serial}</td><td>${tag('Next annual information','a')}</td></tr>`).join(''):`<tr><td colspan="7" class="empty">No corresponding adjustments yet.</td></tr>`}
+    </tbody></table></div>
+    <h2 class="sec">VCS &amp; Gold Standard link</h2>
+    <div class="tbl"><table><thead><tr><th>Request</th><th>Origin</th><th>NCR serial</th><th class="n">Units</th><th>Lock at origin</th><th></th></tr></thead><tbody>
+    ${S.imports.map(i=>`<tr><td class="mono">${i.id}</td><td>${i.origin}</td><td class="mono">${i.ncr}</td><td class="n">${nf(i.qty)}</td><td>${tag(i.lock, i.lock==='Confirmed'?'g':'a')}</td><td>${i.lock==='Confirmed'?'':`<button class="btn2 btns" data-act="lock" data-id="${i.id}">Simulate Verra lock confirmation</button>`}</td></tr>`).join('')}
+    </tbody></table></div>`);
+}
+
+// ---------- admin: reports & policy ----------
+function vReports(){
+  const pl=S.policy;
+  return shell('reports', `
+    <h2 class="sec">Carbon Levy offset policy</h2>
+    <div class="grid2">
+      <form class="card" onsubmit="return false"><h3>Parameters · version ${pl.version}</h3>
+        <div class="panel" style="background:none;padding:0">
+          <label class="f">Offset cap (% of verified emissions)<input id="pCap" type="number" min="0" max="100" value="${pl.cap}"></label>
+          <label class="f">International credit threshold (% of surrendered CCU)<input id="pIntl" type="number" min="0" max="100" value="${pl.intl}"></label>
+          <label class="f">Minimum vintage for levy use<input id="pVin" type="number" value="${pl.minVintage}"></label>
+        </div>
+        <div class="actions"><button class="btn" data-act="savePolicy">Save as new version</button></div>
+        <div style="font-size:12px;color:#595959">Try it: lower the international threshold, then open the Carbon Levy page as the account holder.</div></form>
+      <div class="card"><h3>Version history</h3><div class="tbl" style="border:0"><table><thead><tr><th>Version</th><th>Date</th><th>By</th><th>Change</th></tr></thead><tbody>
+        ${pl.history.slice().reverse().map(h=>`<tr><td>v${h.v}</td><td>${h.at}</td><td>${h.by}</td><td>${h.note}</td></tr>`).join('')}</tbody></table></div></div>
+    </div>
+    <h2 class="sec">Units expiring within 180 days</h2>
+    <div class="tbl"><table><thead><tr><th>Account</th><th>Serial block</th><th class="n">Qty</th><th>Valid until</th><th>Last reminder</th><th></th></tr></thead><tbody>
+    ${S.expiring.map((e,k)=>`<tr><td>${e.acc}</td><td class="mono">${e.serial}</td><td class="n">${nf(e.qty)}</td><td>${tag(e.valid,e.cls)}</td><td>${e.last}</td><td><button class="btn2 btns" data-act="remind" data-k="${k}">Send reminder</button></td></tr>`).join('')}
+    </tbody></table></div>
+    <h2 class="sec">Report library</h2>
+    <div class="grid3">
+      ${[['Monthly registry statement','Issuance, transfers, retirements and balances by programme, state and account type.'],['Carbon Levy offset report','Surrenders per liable entity, cap use, international share and rejected units.'],['Article 6 reports','Initial report, annual information and BTR tables: authorisations, first transfers, adjustments.'],['Service-level report','Time per approval type against the published working-day limits.'],['State registry reconciliation','NCR versus Sarawak and Sabah registries, differences flagged.'],['Audit trail export','Every status change with user, time and OTP reference.']].map(([h,d])=>`<div class="card"><h3>${h}</h3><div style="line-height:1.6">${d}</div><div class="actions" style="justify-content:flex-start"><button class="btn2 btns" data-act="runReport" data-n="${h}">Run</button></div></div>`).join('')}
+    </div>`);
+}
+
+// ---------- holder: trading ----------
+function vTrading(){
+  const t=S.trade, lot=S.lots.find(l=>l.id===t.lot), qty=Math.max(0,parseInt(String(t.qty).replace(/,/g,''))||0);
+  const sub=qty*lot.price, fee=Math.round(qty*0.1*100)/100, bad = qty<100 || qty>lot.qty;
+  const hold=S.blocks.reduce((s,b)=>s+Math.max(0,qtyOf(b)),0);
+  return shell('trading', `
+    <h2 class="sec">My holding · ${S.holder.acc}</h2>
+    <div class="kpis">
+      <div class="kpi"><div class="l">Available</div><div class="v">${nf(hold)}</div><div class="s">tCO₂e · ${S.blocks.filter(b=>qtyOf(b)>0).length} serial blocks</div></div>
+      <div class="kpi"><div class="l">Domestic / international</div><div class="v">${nf(S.blocks.filter(b=>!b.intl).reduce((s,b)=>s+Math.max(0,qtyOf(b)),0))} / ${nf(S.blocks.filter(b=>b.intl).reduce((s,b)=>s+Math.max(0,qtyOf(b)),0))}</div><div class="s">tCO₂e</div></div>
+      <div class="kpi"><div class="l">Carbon Levy room left</div><div class="v">${nf(S.levy.emissions*S.policy.cap/100 - S.levy.surrendered)}</div><div class="s">tCO₂e · <a data-act="go" data-v="levy">open</a></div></div>
+    </div>
+    <h2 class="sec">Marketplace · choose a lot</h2>
+    <div class="grid2" style="grid-template-columns:repeat(auto-fit,minmax(420px,1fr))">
+      <div class="tbl"><table><thead><tr><th>Lot</th><th>Programme · vintage</th><th class="n">Qty</th><th class="n">RM / t</th><th>Levy</th></tr></thead><tbody>
+      ${S.lots.map(l=>`<tr class="click ${l.id===t.lot?'sel':''}" data-act="selLot" data-id="${l.id}"><td class="mono">${l.id}</td><td>${l.prog} · ${l.vintage}<br><span style="font-size:11px;color:#595959">${l.where} · ${l.seller}</span></td><td class="n">${nf(l.qty)}</td><td class="n">${l.price.toFixed(2)}</td><td>${l.intl?tag('International','b'):tag('Domestic','g')}</td></tr>`).join('')}
+      </tbody></table></div>
+      <section class="card" aria-label="Checkout"><h3>Checkout · ${lot.id} · ${lot.prog} ${lot.vintage}</h3>
+        <label class="f">Quantity (tCO₂e)<input data-in="tradeQty" value="${t.qty}"><span class="hint">Minimum 100 · available ${nf(lot.qty)}</span></label>
+        <div class="tbl" style="border:0;margin-top:10px"><table><tbody>
+          <tr><td id="tLine">${nf(qty)} × ${rm(lot.price)}</td><td class="n" id="tSub">${rm(sub)}</td></tr>
+          <tr><td>Registry transaction fee (RM 0.10 / t, sample)</td><td class="n" id="tFee">${rm(fee)}</td></tr>
+          <tr class="sel"><td><b>Total payable</b></td><td class="n"><b id="tTot">${rm(sub+fee)}</b></td></tr></tbody></table></div>
+        <fieldset style="border:1px solid #e0e0e0;border-radius:4px;margin:12px 0 0;padding:8px 12px"><legend style="font-weight:700;font-size:12px;padding:0 4px">Payment method</legend>
+          ${['FPX online banking','DuitNow','Bank transfer to registry escrow'].map(m=>`<label style="display:flex;gap:8px;padding:4px 0"><input type="radio" name="pay" data-act="payMethod" data-m="${m}" ${t.method===m?'checked':''}> ${m}</label>`).join('')}</fieldset>
+        <div class="note" style="margin-top:12px">Delivery versus payment: the seller's units are locked when you pay and move to your account once the payment is confirmed.</div>
+        <div id="tErr">${bad?`<div class="err" style="margin-top:10px">Enter a quantity between 100 and ${nf(lot.qty)}.</div>`:''}</div>
+        <div class="actions"><button class="btn" id="payBtn" data-act="pay" ${bad?'disabled':''}>Pay ${rm(sub+fee)}</button></div></section>
+    </div>
+    <h2 class="sec">Transaction list</h2>
+    <div class="tbl"><table><thead><tr><th>Time</th><th>Type</th><th>Counterparty</th><th>Serial block</th><th class="n">Qty</th><th class="n">Amount</th><th>Payment</th><th>Units</th></tr></thead><tbody>
+    ${S.tx.filter(x=>x.mine).map(x=>`<tr><td>${x.t}</td><td>${x.type}</td><td>${x.from===S.holder.name?x.to:x.from}</td><td class="mono">${x.serial}</td><td class="n">${nf(x.qty)}</td><td class="n">${x.amt?rm(x.amt):'—'}</td><td>${x.pay}</td><td>${tag(x.status, 'g')}</td></tr>`).join('')}
+    </tbody></table></div>
+    <h2 class="sec">My serial blocks</h2>
+    ${blocksTable()}`, `<button class="btn2" data-act="go" data-v="retirement">Retire units</button>`);
+}
+function blocksTable(){
+  return `<div class="tbl"><table><thead><tr><th>Serial block</th><th>Programme · vintage</th><th>Origin</th><th class="n">Qty</th><th>Valid until</th></tr></thead><tbody>
+  ${S.blocks.filter(b=>qtyOf(b)>0).map(b=>`<tr><td class="mono">${ser(b.prefix,b.start,b.end)}</td><td>${b.prog} · ${b.vintage}</td><td>${b.intl?tag('International','b'):tag('Domestic','g')}</td><td class="n">${nf(qtyOf(b))}</td><td>${b.valid==='31 Dec 2026'?tag(b.valid,'r'):b.valid}</td></tr>`).join('')}</tbody></table></div>`;
+}
+
+// ---------- holder: retirement ----------
+function vRetirement(){
+  const r=S.ret, avail=S.blocks.filter(b=>qtyOf(b)>0);
+  if(!avail.find(b=>b.id===r.block) && avail.length) r.block=avail[0].id;
+  const b=S.blocks.find(x=>x.id===r.block);
+  const qty=parseInt(String(r.qty).replace(/,/g,''))||0;
+  const bad = !b || qty<1 || qty>qtyOf(b);
+  const c=r.cert;
+  return shell('retirement', `
+    <div class="grid2" style="grid-template-columns:repeat(auto-fit,minmax(440px,1fr))">
+      <section><h2 class="sec">Retire units</h2>
+        <form class="card" style="display:flex;flex-direction:column;gap:12px" onsubmit="return false">
+          <label class="f">Serial block<select data-in="retBlock">${avail.map(x=>`<option value="${x.id}" ${x.id===r.block?'selected':''}>${ser(x.prefix,x.start,x.end)} · ${x.prog} ${x.vintage} · ${nf(qtyOf(x))}</option>`).join('')}</select></label>
+          <label class="f">Quantity (tCO₂e)<input data-in="retQty" value="${r.qty}"><span class="hint">Available in this block: ${b?nf(qtyOf(b)):0}</span></label>
+          <label class="f">Purpose<select data-in="retPurpose">${['Voluntary claim (corporate net-zero / carbon-neutral)','Domestic NDC contribution'].map(p=>`<option ${r.purpose===p?'selected':''}>${p}</option>`).join('')}</select><span class="hint">Carbon Levy surrenders go through the <a data-act="go" data-v="levy">Carbon Levy page</a>, where the ${S.policy.cap}% cap and the international threshold are checked.</span></label>
+          <label class="f">Beneficiary (named on the certificate)<input data-in="retBen" value="${esc(r.ben)}"></label>
+          <label class="f">Claim statement<textarea data-in="retClaim" rows="2">${esc(r.claim)}</textarea></label>
+          <div class="note">Retirement is final and is published on the public registry with the beneficiary.</div>
+          <div id="rErr">${bad?`<div class="err">Enter a quantity between 1 and ${b?nf(qtyOf(b)):0}.</div>`:''}</div>
+          <div class="actions" style="margin-top:0"><button class="btn" id="retBtn" data-act="retire" ${bad?'disabled':''}>Retire ${nf(qty)} CCU</button></div>
+        </form>
+        <h2 class="sec">My serial blocks</h2>${blocksTable()}
+      </section>
+      <section><h2 class="sec">Certificate</h2>
+        ${c?`<div class="cert">
+          <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap"><span style="display:flex;align-items:center;gap:10px">${LOGO}<b>National Carbon Registry · Malaysia</b></span><span class="mono" style="color:#595959">${c.no}</span></div>
+          <div style="font-size:22px;font-weight:300;text-transform:uppercase;letter-spacing:.04em;color:#1b1b1b">Certificate of Retirement</div>
+          <div style="line-height:1.7">This certifies that <b>${nf(c.qty)}</b> Carbon Credit Units (tCO₂e) have been permanently retired on behalf of <b>${esc(c.ben)}</b> for: ${esc(c.purpose)}.</div>
+          <dl class="dl"><dt>Project</dt><dd>${c.project}</dd><dt>Programme · vintage</dt><dd>${c.prog} · ${c.vintage}</dd><dt>Serial numbers</dt><dd class="mono">${c.serial}</dd><dt>Claim</dt><dd style="font-weight:400">${esc(c.claim)}</dd><dt>Retired on</dt><dd>${c.t}</dd><dt>Corresponding adjustment</dt><dd>Not applied · counts towards Malaysia's NDC</dd></dl>
+          <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:12px;border-top:1px solid #eee;padding-top:12px"><span style="font-size:12px;color:#595959">Verify on the public registry with the certificate number or QR code.</span><span role="img" aria-label="QR code placeholder" style="width:70px;height:70px;border:1px dashed #999;display:flex;align-items:center;justify-content:center;font-size:10px;color:#595959">QR</span></div></div>
+          <div class="actions"><button class="btn2" data-act="go" data-v="public">View on public registry</button></div>`
+        :`<div class="card" style="color:#595959;text-align:center;padding:60px 20px">The certificate appears here after you retire units.</div>`}
+      </section></div>`);
+}
+
+// ---------- holder: levy ----------
+function levyCalc(){
+  const L=S.levy, P=S.policy, cap=Math.round(L.emissions*P.cap/100);
+  let selT=0, selI=0; const rows=[];
+  S.blocks.filter(b=>qtyOf(b)>0).forEach(b=>{
+    const elig = b.vintage>=P.minVintage && !b.auth;
+    const why = b.vintage<P.minVintage ? `Vintage before ${P.minVintage}` : b.auth ? 'Authorised for Article 6' : '';
+    const q = elig ? Math.min(parseInt(L.sel[b.id]||0)||0, qtyOf(b)) : 0;
+    selT+=q; if(b.intl) selI+=q;
+    rows.push({b,elig,why,q});
+  });
+  const totAfter=L.surrendered+selT, intlAfter=L.surrIntl+selI;
+  const share = totAfter? intlAfter/totAfter*100 : 0;
+  const capOk = totAfter<=cap, intlOk = share<=P.intl+1e-9, any=selT>0;
+  const needDom = intlOk?0:Math.ceil(intlAfter/(P.intl/100) - totAfter);
+  return {cap,selT,selI,totAfter,intlAfter,share,capOk,intlOk,any,needDom,rows};
+}
+function levyPanel(){
+  const c=levyCalc(), P=S.policy;
+  const capPct=Math.min(100,c.totAfter/c.cap*100);
+  return `<div class="card"><h3>Live validation</h3>
+    <div style="font-size:12px;color:#595959">Offset cap use after this surrender: <b>${nf(c.totAfter)}</b> of ${nf(c.cap)} tCO₂e (${P.cap}% of verified emissions)</div>
+    <div class="bar" style="margin-top:6px"><div style="width:${capPct}%;background:${c.capOk?'#1e8449':'#c0392b'}"></div></div>
+    <div style="font-size:12px;color:#595959;margin-top:14px">International credits within total surrendered: <b>${nf(c.intlAfter)}</b> of ${nf(c.totAfter)} = <b>${c.share.toFixed(1)}%</b> · threshold ${P.intl}%</div>
+    <div class="bar" style="margin-top:6px"><div style="width:${Math.min(100,c.share)}%;background:${c.intlOk?'#1d4f91':'#c0392b'}"></div><span class="mark" style="left:${P.intl}%"></span></div>
+    <div style="margin-top:12px;display:flex;flex-direction:column;gap:6px">
+      <div>${c.capOk?tag('Pass','g'):tag('Fail','r')} Within ${P.cap}% offset cap</div>
+      <div>${c.intlOk?tag('Pass','g'):tag('Fail','r')} International share within ${P.intl}%</div>
+      <div>${tag('Pass','g')} No unit authorised for Article 6 transfer</div></div>
+    ${!c.capOk?`<div class="err" style="margin-top:10px">Over the cap by ${nf(c.totAfter-c.cap)} tCO₂e. Reduce the quantity.</div>`:''}
+    ${!c.intlOk?`<div class="err" style="margin-top:10px">Too many international credits. Add at least ${nf(c.needDom)} tCO₂e of domestic units, or reduce VCS/GS units.</div>`:''}
+    <div class="actions"><button class="btn" data-act="surrender" ${c.any&&c.capOk&&c.intlOk?'':'disabled'}>Surrender ${nf(c.selT)} CCU</button></div></div>`;
+}
+function vLevy(){
+  const L=S.levy, c=levyCalc(), P=S.policy;
+  return shell('levy', `
+    <h2 class="sec">Levy obligation · 2026 cycle · LEVY-0021</h2>
+    <div class="kpis">
+      <div class="kpi"><div class="l">Verified emissions (from MRV)</div><div class="v">${nf(L.emissions)}</div><div class="s">tCO₂e · cement</div></div>
+      <div class="kpi"><div class="l">Offset cap · ${P.cap}%</div><div class="v">${nf(c.cap)}</div><div class="s">tCO₂e coverable by CCU</div></div>
+      <div class="kpi"><div class="l">Already surrendered</div><div class="v">${nf(L.surrendered)}</div><div class="s">of which international ${nf(L.surrIntl)}</div></div>
+      <div class="kpi"><div class="l">Remaining offset room</div><div class="v" style="color:#145a32">${nf(Math.max(0,c.cap-L.surrendered))}</div><div class="s">closes 31 Mar 2027</div></div>
+    </div>
+    <div class="grid2" style="grid-template-columns:repeat(auto-fit,minmax(440px,1fr))">
+      <section><h2 class="sec">Choose units to surrender</h2>
+        <div class="tbl"><table><thead><tr><th>Serial block</th><th>Origin</th><th class="n">Held</th><th class="n">Surrender</th><th>Eligibility</th></tr></thead><tbody>
+        ${c.rows.map(r=>`<tr><td class="mono">${ser(r.b.prefix,r.b.start,r.b.end)}<br><span style="font-family:'Open Sans';color:#595959">${r.b.prog} · ${r.b.vintage}</span></td><td>${r.b.intl?tag('International','b'):tag('Domestic','g')}</td><td class="n">${nf(qtyOf(r.b))}</td><td class="n">${r.elig?`<input class="qty" data-in="levyQty" data-id="${r.b.id}" value="${L.sel[r.b.id]||''}" placeholder="0" aria-label="Quantity from ${r.b.prefix}">`:'—'}</td><td>${r.elig?tag('Eligible','g'):tag(r.why,'r')}</td></tr>`).join('')}
+        </tbody></table></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"><button class="btn2 btns" data-act="levyPreset" data-p="ok">Example: valid mix</button><button class="btn2 btns" data-act="levyPreset" data-p="intl">Example: too many international</button><button class="btn2 btns" data-act="levyPreset" data-p="clear">Clear</button></div>
+        <h2 class="sec">Surrenders this cycle</h2>
+        <div class="tbl"><table><thead><tr><th>Time</th><th>Serial block</th><th class="n">tCO₂e</th><th>Origin</th></tr></thead><tbody>
+        <tr><td>20 Nov 20:41</td><td class="mono">MY-FCO-SBH-0012-2025-003-0040001–0045000</td><td class="n">5,000</td><td>${tag('Domestic','g')}</td></tr>
+        ${L.done.map(d=>`<tr><td>${d.t}</td><td class="mono">${d.serial}</td><td class="n">${nf(d.qty)}</td><td>${d.intl?tag('International','b'):tag('Domestic','g')}</td></tr>`).join('')}
+        </tbody></table></div>
+      </section>
+      <section><h2 class="sec">Validation</h2><div id="levyPanel">${levyPanel()}</div>
+        <h2 class="sec">Policy parameters (set by NRES · v${P.version})</h2>
+        <div class="card"><dl class="dl"><dt>Offset cap</dt><dd>${P.cap}% of verified emissions</dd><dt>International threshold</dt><dd>${P.intl}% of surrendered CCU</dd><dt>Minimum vintage</dt><dd>${P.minVintage}</dd><dt>Excluded</dt><dd>Units authorised for Article 6 transfer</dd></dl>
+        <div style="font-size:12px;color:#595959;margin-top:10px">Levy rate and payable amount are calculated in the Carbon Levy system after the surrender is reported.</div></div>
+      </section></div>`);
+}
+
+// ---------- render ----------
+const VIEWS = { public:vPublic, login:vLogin, dashboard:vDashboard, accounts:vAccounts, projects:vProjects, issuance:vIssuance, transfers:vTransfers, reports:vReports, trading:vTrading, retirement:vRetirement, levy:vLevy };
+function render(){
+  let v=view(); if(!VIEWS[v]) v='public';
+  if(ADMIN.includes(v) && S.role!=='admin'){ S.loginRole='admin'; v='login'; }
+  if(HOLDER.includes(v) && S.role!=='holder'){ S.loginRole='holder'; v='login'; }
+  document.getElementById('app').innerHTML = VIEWS[v]();
+  document.title = (v==='public'?'Public Registry':v==='login'?'Sign in':TITLES[v]) + ' · National Carbon Registry (prototype)';
+}
+
+// ---------- actions ----------
+const A = {
+  go: d => go(d.v),
+  loginRole: d => { S.loginRole=d.r; render(); },
+  login: () => { S.role=S.loginRole; log(S.role==='admin'?'Nur Aisyah':S.holder.rep, 'Signed in'); go(S.role==='admin'?'dashboard':'trading'); },
+  signout: () => { S.role=null; go('public'); },
+  switch: () => { S.role = S.role==='admin'?'holder':'admin'; toast(`Switched to the ${S.role==='admin'?'Registry Administrator':'account holder'} console`); go(S.role==='admin'?'dashboard':'trading'); },
+  resetFilters: () => { S.filters={q:'',state:'',prog:''}; render(); },
+  kyc: d => { const a=S.accounts.find(x=>x.no==='ACC-0151'); a.status=d.d; a.kyc=d.d==='Active'?'Verified':a.kyc; if(d.d==='Active') a.reps='2 active'; log('Nur Aisyah', `KYC decision ${a.no}: ${d.d}`); toast(`${a.no} ${a.holder}: ${d.d}`); render(); },
+  selProject: d => { S.selProject=d.id; render(); },
+  projDecide: d => { const p=S.projects.find(x=>x.no===S.selProject); p.stage=d.d; if(d.d==='Registered') p.use='Not authorised'; log('Nur Aisyah', `Project ${p.no}: ${d.d}`); toast(`${p.no} → ${d.d}`); render(); },
+  projAdvance: () => { const order=['Submitted','State consent','Validation','NRES decision']; const p=S.projects.find(x=>x.no===S.selProject); const i=order.indexOf(p.stage); if(i>=0 && i<3){ p.stage=order[i+1]; log('System', `Project ${p.no} moved to ${p.stage}`); } render(); },
+  selIss: d => { S.selIssuance=d.id; render(); },
+  feePaid: () => { const i=S.issuances.find(x=>x.id===S.selIssuance); i.fee='Paid · FPX'; i.status='Checker approval'; log('Payment gateway', `Fee received for ${i.id}`); toast('FPX confirmed the issuance fee'); render(); },
+  issue: d => {
+    const i=S.issuances.find(x=>x.id===S.selIssuance);
+    if(d.d==='Issued'){ const o=(document.getElementById('otp')||{}).value||''; if(!/^\d{6}$/.test(o)){ toast('Enter a 6-digit one-time password to approve.'); return; }
+      const buf=Math.round(i.verified*i.buffer/100), net=i.verified-buf; i.status='Issued'; S.stats.issued+=i.verified;
+      const p=S.projects.find(x=>x.no===i.project); if(p) p.issued+=i.verified;
+      S.tx.unshift({t:now(), type:'Issuance', from:'Issuance account', to:i.acc, serial:ser(i.prefix,1,net), qty:net, amt:null, pay:'—', status:'Completed', mine:false});
+      if(buf) S.tx.unshift({t:now(), type:'Buffer allocation', from:'Issuance account', to:'Buffer pool', serial:ser(i.prefix,net+1,i.verified), qty:buf, amt:null, pay:'—', status:'Completed', mine:false});
+      log('Nur Aisyah', `Issued ${nf(i.verified)} CCU (${i.id})`); toast(`${nf(i.verified)} CCU issued · serials generated`);
+    } else { i.status='Rejected'; log('Nur Aisyah', `Rejected ${i.id}`); }
+    render(); },
+  auth: d => {
+    const a=S.auth;
+    if(d.d==='Declined'){ a.status='Declined'; log('Nur Aisyah', `Declined ${a.id}`); render(); return; }
+    const q=parseInt(((document.getElementById('authQty')||{}).value||'').replace(/,/g,''))||0;
+    if(q<1||q>a.qty){ toast(`Enter a quantity between 1 and ${nf(a.qty)}.`); return; }
+    a.status='Authorised'; a.approved=q; S.stats.itmo+=q;
+    const serial=ser('MY-VCS-PHG-0007-2024-003',1,q);
+    S.ca.push({t:now(), id:a.id, qty:q, serial});
+    const p=S.projects.find(x=>x.no==='NCR-PRJ-PHG-0007'); if(p) p.use='NDC · Singapore (CA applied)';
+    S.tx.unshift({t:now(), type:'International transfer · ITMO', from:'Sample Peat Trust', to:'Singapore registry', serial, qty:q, amt:null, pay:'—', status:'Completed', mine:false});
+    log('Nur Aisyah', `Authorised ${nf(q)} ITMOs to Singapore, CA recorded`); toast(`Authorised ${nf(q)} tCO₂e · corresponding adjustment recorded`); render(); },
+  lock: d => { const i=S.imports.find(x=>x.id===d.id); i.lock='Confirmed'; log('Verra API', `Lock confirmed for ${i.id}`); toast(`${i.id}: Verra lock confirmed, ${nf(i.qty)} units usable in NCR`); render(); },
+  savePolicy: () => {
+    const cap=+document.getElementById('pCap').value, intl=+document.getElementById('pIntl').value, vin=+document.getElementById('pVin').value;
+    if(!(cap>=0&&cap<=100&&intl>=0&&intl<=100&&vin>2000)){ toast('Check the values: percentages 0–100, a valid year.'); return; }
+    const P=S.policy, ch=[]; if(cap!==P.cap) ch.push(`cap ${P.cap}→${cap}%`); if(intl!==P.intl) ch.push(`international ${P.intl}→${intl}%`); if(vin!==P.minVintage) ch.push(`min vintage ${P.minVintage}→${vin}`);
+    if(!ch.length){ toast('No change to save.'); return; }
+    P.cap=cap; P.intl=intl; P.minVintage=vin; P.version++; P.history.push({v:P.version, at:now(), by:'Nur Aisyah', note:ch.join(', ')});
+    log('Nur Aisyah', `Policy v${P.version}: ${ch.join(', ')}`); toast(`Policy v${P.version} saved`); render(); },
+  remind: d => { const e=S.expiring[+d.k]; e.last=now()+' · email + SMS'; toast(`Reminder sent to ${e.acc}`); render(); },
+  runReport: d => { log('Nur Aisyah', `Ran report: ${d.n}`); toast(`${d.n}: generated (prototype preview not included)`); },
+  selLot: d => { S.trade.lot=d.id; S.trade.qty=Math.min(3000, S.lots.find(l=>l.id===d.id).qty); render(); },
+  payMethod: d => { S.trade.method=d.m; },
+  pay: () => {
+    const t=S.trade, lot=S.lots.find(l=>l.id===t.lot), qty=parseInt(String(t.qty).replace(/,/g,''))||0, tot=qty*lot.price+Math.round(qty*0.1*100)/100;
+    modal(`<h3>${t.method} · simulated</h3><dl class="dl"><dt>Merchant</dt><dd>National Carbon Registry escrow</dd><dt>Order</dt><dd>${lot.id} · ${nf(qty)} tCO₂e</dd><dt>Amount</dt><dd>${rm(tot)}</dd></dl>
+      <label class="f" style="margin-top:14px">Bank<select><option>Sample Bank A</option><option>Sample Bank B</option></select></label>
+      <div class="note" style="margin-top:12px">Prototype: no real payment is made.</div>
+      <div class="actions"><button class="btn2" data-act="payCancel">Cancel</button><button class="btn" data-act="payOk">Approve payment</button></div>`); },
+  payCancel: () => modal(''),
+  payOk: () => {
+    const t=S.trade, lot=S.lots.find(l=>l.id===t.lot), qty=parseInt(String(t.qty).replace(/,/g,''))||0, tot=qty*lot.price+Math.round(qty*0.1*100)/100;
+    const s=lot.start; lot.start+=qty; lot.qty-=qty;
+    S.blocks.push({id:'b'+Date.now(), prog:lot.prog, intl:lot.intl, vintage:lot.vintage, project:lot.project, prefix:lot.prefix, start:s, end:s+qty-1, valid:lot.valid, auth:false});
+    const serial=ser(lot.prefix,s,s+qty-1);
+    S.tx.unshift({t:now(), type:'Purchase', from:lot.seller, to:S.holder.name, serial, qty, amt:tot, pay:t.method+' · paid', status:'Delivered', mine:true});
+    log(S.holder.rep, `Bought ${nf(qty)} CCU (${lot.id}), paid ${rm(tot)}`);
+    modal(''); toast(`Payment confirmed · ${nf(qty)} CCU delivered to ${S.holder.acc}`);
+    if(lot.qty<100) S.lots=S.lots.filter(l=>l.qty>=100);
+    if(!S.lots.find(l=>l.id===t.lot)) t.lot=S.lots[0].id;
+    t.qty=Math.min(3000,S.lots.find(l=>l.id===t.lot).qty); render(); },
+  retire: () => {
+    const r=S.ret, b=S.blocks.find(x=>x.id===r.block), qty=parseInt(String(r.qty).replace(/,/g,''))||0;
+    if(!b||qty<1||qty>qtyOf(b)) return;
+    const [s,e]=take(b,qty), serial=ser(b.prefix,s,e), t=now();
+    r.seq++; r.cert={no:'RET-2026-00'+r.seq, qty, ben:r.ben, purpose:r.purpose, project:b.project, prog:b.prog, vintage:b.vintage, serial, claim:r.claim, t};
+    S.stats.retired+=qty;
+    S.tx.unshift({t, type:'Retirement · '+(r.purpose.startsWith('Domestic')?'Domestic NDC':'Voluntary claim'), from:r.ben, to:'Voluntary retirement account', serial, qty, amt:null, pay:'—', status:'Retired', mine:true});
+    log(S.holder.rep, `Retired ${nf(qty)} CCU · certificate ${r.cert.no}`); toast(`Retired ${nf(qty)} CCU · certificate ${r.cert.no} issued`);
+    r.qty=Math.min(1000, Math.max(0,qtyOf(b))); render(); },
+  levyPreset: d => {
+    const L=S.levy; L.sel={};
+    const dom=S.blocks.find(b=>!b.intl && b.vintage>=S.policy.minVintage && qtyOf(b)>0), vcs=S.blocks.find(b=>b.intl && qtyOf(b)>0);
+    if(d.p==='ok'){ if(dom) L.sel[dom.id]=Math.min(5000,qtyOf(dom)); if(vcs) L.sel[vcs.id]=Math.min(3000,qtyOf(vcs)); }
+    if(d.p==='intl'){ let room=Math.round(S.levy.emissions*S.policy.cap/100)-S.levy.surrendered;
+      S.blocks.filter(b=>b.intl && qtyOf(b)>0 && b.vintage>=S.policy.minVintage).sort((a,b)=>qtyOf(b)-qtyOf(a)).forEach(b=>{ const q=Math.min(qtyOf(b),room); if(q>0){ L.sel[b.id]=q; room-=q; } }); }
+    render(); },
+  surrender: () => {
+    const c=levyCalc(); if(!(c.any&&c.capOk&&c.intlOk)) return;
+    const t=now();
+    c.rows.filter(r=>r.q>0).forEach(r=>{ const [s,e]=take(r.b,r.q), serial=ser(r.b.prefix,s,e);
+      S.levy.done.push({t, serial, qty:r.q, intl:r.b.intl});
+      S.tx.unshift({t, type:'Retirement · Carbon Levy', from:S.holder.name, to:'Levy surrender account', serial, qty:r.q, amt:null, pay:'—', status:'Retired', mine:true}); });
+    S.levy.surrendered+=c.selT; S.levy.surrIntl+=c.selI; S.stats.retired+=c.selT; S.stats.levyRetired+=c.selT; S.levy.sel={};
+    log(S.holder.rep, `Surrendered ${nf(c.selT)} CCU against Carbon Levy (international ${nf(c.selI)})`);
+    toast(`Surrendered ${nf(c.selT)} CCU · result sent to the Carbon Levy system`); render(); }
+};
+
+document.addEventListener('click', e => {
+  const el=e.target.closest('[data-act]'); if(!el) return;
+  if(el.tagName==='INPUT' && el.type==='radio'){ A[el.dataset.act](el.dataset); return; }
+  e.preventDefault(); const f=A[el.dataset.act]; if(f) f(el.dataset, el);
+});
+document.addEventListener('input', e => {
+  const el=e.target, k=el.dataset && el.dataset.in; if(!k) return;
+  if(['q','state','prog'].includes(k)){ S.filters[k]=el.value; document.getElementById('projRows').innerHTML=projRows(); return; }
+  if(k==='tradeQty'){ S.trade.qty=el.value; const lot=S.lots.find(l=>l.id===S.trade.lot), q=Math.max(0,parseInt(el.value.replace(/,/g,''))||0), sub=q*lot.price, fee=Math.round(q*0.1*100)/100, bad=q<100||q>lot.qty;
+    document.getElementById('tLine').textContent=nf(q)+' × '+rm(lot.price); document.getElementById('tSub').textContent=rm(sub); document.getElementById('tFee').textContent=rm(fee); document.getElementById('tTot').textContent=rm(sub+fee);
+    const b=document.getElementById('payBtn'); b.disabled=bad; b.textContent='Pay '+rm(sub+fee);
+    document.getElementById('tErr').innerHTML = bad?`<div class="err" style="margin-top:10px">Enter a quantity between 100 and ${nf(lot.qty)}.</div>`:''; return; }
+  if(k==='retQty'){ S.ret.qty=el.value; const b=S.blocks.find(x=>x.id===S.ret.block), q=parseInt(el.value.replace(/,/g,''))||0, bad=!b||q<1||q>qtyOf(b);
+    const btn=document.getElementById('retBtn'); btn.disabled=bad; btn.textContent='Retire '+nf(q)+' CCU';
+    document.getElementById('rErr').innerHTML = bad?`<div class="err">Enter a quantity between 1 and ${b?nf(qtyOf(b)):0}.</div>`:''; return; }
+  if(k==='retBen'){ S.ret.ben=el.value; return; }
+  if(k==='retClaim'){ S.ret.claim=el.value; return; }
+  if(k==='levyQty'){ S.levy.sel[el.dataset.id]=el.value.replace(/[^0-9]/g,''); document.getElementById('levyPanel').innerHTML=levyPanel(); return; }
+});
+document.addEventListener('change', e => {
+  const el=e.target, k=el.dataset && el.dataset.in; if(!k) return;
+  if(k==='retBlock'){ S.ret.block=el.value; const b=S.blocks.find(x=>x.id===el.value); S.ret.qty=Math.min(+S.ret.qty||1, qtyOf(b)); render(); }
+  if(k==='retPurpose'){ S.ret.purpose=el.value; }
+});
+document.addEventListener('submit', e => e.preventDefault());
+render();
+</script>
+</body>
+</html>

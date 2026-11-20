@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Trading &amp; Online Payment</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:'Open Sans',Arial,sans-serif;font-size:13px;color:#333;background:#fff}
+a{color:#1e7a46}a:hover{color:#145a32}
+.topbar{background:#1b1b1b;color:#fff;min-height:32px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;font-size:12px;flex-wrap:wrap;gap:8px}
+.topbar a{color:#fff;text-decoration:none}
+.brand{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:10px 24px;border-bottom:1px solid #e5e5e5;flex-wrap:wrap}
+.ptitle{background:#f3f3f3;padding:14px 24px;border-bottom:1px solid #e5e5e5;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.ptitle h1{margin:0;font-size:22px;font-weight:300;color:#1b1b1b}
+.crumb{font-size:12px;color:#595959}
+.shell{display:flex;flex-wrap:wrap;align-items:stretch}
+.side{flex:1 1 220px;max-width:236px;background:#fafafa;border-right:1px solid #e5e5e5;padding:12px 0 24px;box-sizing:border-box}
+.side-h{font-size:11px;font-weight:700;color:#595959;letter-spacing:.06em;padding:16px 20px 6px}
+.side a{display:block;padding:9px 20px;color:#333;text-decoration:none;border-left:3px solid transparent}
+.side a:hover{background:#f0f0f0}
+.side a.on{background:#e8f5ee;border-left-color:#1e8449;color:#145a32;font-weight:700}
+.side .cnt{float:right;background:#c0392b;color:#fff;border-radius:9px;font-size:11px;padding:0 7px;font-weight:700}
+.main{flex:999 1 560px;min-width:0;padding:8px 28px 40px;box-sizing:border-box}
+.sec{font-size:17px;font-weight:300;text-transform:uppercase;border-left:2px solid #27ae60;border-bottom:1px solid #ddd;padding:2px 0 8px 12px;margin:26px 0 14px;color:#333}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px}
+.kpi{border:1px solid #e0e0e0;border-radius:6px;padding:14px 16px;background:#fff}
+.kpi .l{font-size:12px;color:#595959;font-weight:600}
+.kpi .v{font-size:24px;font-weight:600;color:#1b1b1b;margin-top:6px}
+.kpi .s{font-size:12px;color:#595959;margin-top:2px}
+.panel{background:#f3f3f3;border-radius:4px;padding:16px 18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px 22px}
+.f{display:flex;flex-direction:column;gap:5px;font-weight:700;font-size:12px;color:#333}
+.f input,.f select,.f textarea{font:inherit;font-weight:400;padding:7px 9px;border:1px solid #c8c8c8;border-radius:3px;background:#fff;color:#333}
+.f .hint{font-weight:400;color:#595959;font-size:11px}
+.btn{display:inline-block;background:#1e8449;color:#fff;border:1px solid #1e8449;border-radius:6px;padding:8px 16px;text-decoration:none;font:inherit;font-weight:600;cursor:pointer;white-space:nowrap}
+.btn:hover{color:#fff;background:#196f3d}
+.btn2{display:inline-block;background:#fff;color:#333;border:1px solid #c8c8c8;border-radius:6px;padding:8px 16px;text-decoration:none;font:inherit;cursor:pointer;white-space:nowrap}
+.btnr{display:inline-block;background:#fff;color:#a61b1b;border:1px solid #d9a3a3;border-radius:6px;padding:8px 16px;text-decoration:none;font:inherit;cursor:pointer;white-space:nowrap}
+.tbl{overflow-x:auto;border:1px solid #e5e5e5;border-radius:4px}
+table{width:100%;border-collapse:collapse}
+th{color:#1e7a46;text-align:left;font-weight:700;font-size:12px;padding:10px 10px;border-bottom:2px solid #d5ead9;white-space:nowrap;background:#fff}
+td{padding:10px 10px;border-bottom:1px solid #eee;vertical-align:top}
+td.n,th.n{text-align:right;white-space:nowrap}
+.tag{display:inline-block;padding:2px 9px;border-radius:10px;font-size:11px;font-weight:600;white-space:nowrap}
+.t-g{background:#e3f4e8;color:#145a32}.t-a{background:#fdf0dc;color:#7a4b00}.t-b{background:#e6effa;color:#1d4f91}.t-r{background:#fbe7e7;color:#8a1f1f}.t-n{background:#eee;color:#444}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:22px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+.card{border:1px solid #e0e0e0;border-radius:6px;padding:16px 18px;background:#fff}
+.card h3{margin:0 0 10px;font-size:14px;font-weight:700;color:#1b1b1b}
+.dl{display:grid;grid-template-columns:minmax(140px,auto) 1fr;gap:8px 16px;margin:0}
+.dl dt{color:#595959;font-size:12px}.dl dd{margin:0;font-weight:600}
+.bar{height:10px;background:#e9e9e9;border-radius:5px;overflow:hidden}
+.bar > div{height:100%;background:#1e8449}
+.steps{display:flex;gap:0;flex-wrap:wrap;margin:6px 0 4px}
+.steps div{flex:1 1 120px;padding:10px 12px;border-top:4px solid #ddd;font-size:12px;color:#595959}
+.steps div.done{border-top-color:#1e8449;color:#145a32}
+.steps div.cur{border-top-color:#d68910;color:#7a4b00;font-weight:700}
+.note{background:#fdf6e7;border:1px solid #f0d9a8;border-radius:4px;padding:10px 14px;color:#5c3d00;font-size:12px;line-height:1.6}
+.mono{font-family:Consolas,'Courier New',monospace;font-size:12px}
+.actions{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;margin-top:14px}
+</style>
+</helmet>
+<div>
+  <div class="topbar">
+    <span>National Carbon Registry · Malaysia <span class="tag t-a" style="margin-left:8px">Sample data · prototype</span></span>
+    <span style="display:flex;gap:16px;align-items:center">Welcome, Lim Wei Ming (Authorised Representative, Sample Cement Bhd) <a href="#">BM | EN</a> <a href="Login.dc.html">Sign out</a></span>
+  </div>
+  <header class="brand">
+    <a href="Dashboard.dc.html" style="display:flex;align-items:center;gap:12px;text-decoration:none;color:#1b1b1b">
+      <svg width="34" height="34" viewBox="0 0 40 40" aria-hidden="true"><rect x="1" y="1" width="38" height="38" rx="8" fill="none" stroke="#1e8449" stroke-width="2"></rect><path d="M12 27c0-9 7-15 17-15-1 10-7 16-15 16" fill="none" stroke="#1e8449" stroke-width="2.2" stroke-linecap="round"></path><path d="M12 28l9-9" stroke="#1e8449" stroke-width="2.2" stroke-linecap="round"></path></svg>
+      <span><span style="display:block;font-size:17px;font-weight:600">National Carbon Registry</span><span style="display:block;font-size:11px;color:#595959">CCU Registry · Administration</span></span>
+    </a>
+    <label style="display:flex;align-items:center;gap:8px;flex:0 1 360px"><span style="font-size:12px;color:#595959;white-space:nowrap">Quick search</span><input type="text" placeholder="Serial no., account, project…" style="font:inherit;padding:7px 9px;border:1px solid #c8c8c8;border-radius:3px;width:100%"></label>
+  </header>
+  <div class="ptitle"><div><div class="crumb">Home / Market &amp; compliance / Trading</div><h1>Trading &amp; Online Payment</h1></div><div style="display:flex;gap:10px;flex-wrap:wrap"><a href="#" class="btn2">Go to Bursa Carbon Exchange</a><a href="#" class="btn">List CCU for sale</a></div></div>
+  <div class="shell">
+    <nav class="side" aria-label="Registry modules">
+      <div class="side-h">REGISTRY OPERATIONS</div>
+      <a href="Dashboard.dc.html">Dashboard</a>
+      <a href="Accounts.dc.html">Accounts &amp; KYC<span class="cnt">3</span></a>
+      <a href="Projects.dc.html">Project Registration<span class="cnt">5</span></a>
+      <a href="Issuance.dc.html">CCU Issuance<span class="cnt">2</span></a>
+      <a href="Transfers.dc.html">Transfers &amp; Article 6<span class="cnt">1</span></a>
+      <div class="side-h">MARKET &amp; COMPLIANCE</div>
+      <a href="Trading.dc.html" class="on" aria-current="page">Trading &amp; Payment</a>
+      <a href="Retirement.dc.html">CCU Retirement</a>
+      <a href="Levy.dc.html">Carbon Levy Offset</a>
+      <div class="side-h">INSIGHT</div>
+      <a href="Reports.dc.html">Reporting &amp; Validity</a>
+      <a href="Main.dc.html">Public registry view</a>
+    </nav>
+    <main class="main">
+      <h2 class="sec">My holding · ACC-0143</h2>
+      <div class="kpis">
+        <div class="kpi"><div class="l">Available</div><div class="v">24,500</div><div class="s">tCO₂e · 3 serial blocks</div></div>
+        <div class="kpi"><div class="l">Locked (listed / in settlement)</div><div class="v">5,000</div><div class="s">tCO₂e</div></div>
+        <div class="kpi"><div class="l">Expiring within 90 days</div><div class="v" style="color:#7a4b00">2,000</div><div class="s">FCO 2020 vintage · <a href="Reports.dc.html">view</a></div></div>
+        <div class="kpi"><div class="l">Payments pending</div><div class="v">1</div><div class="s">RM 135,000.00</div></div>
+      </div>
+
+      <div style="display:flex;gap:0;border-bottom:1px solid #ddd;margin:26px 0 14px;flex-wrap:wrap" role="tablist"><a href="#" style="padding:10px 18px;text-decoration:none;color:#145a32;border-bottom:3px solid #1e8449;font-weight:700">Marketplace</a><a href="#" style="padding:10px 18px;text-decoration:none;color:#595959;font-weight:600">My orders (2)</a><a href="#tx" style="padding:10px 18px;text-decoration:none;color:#595959;font-weight:600">Transaction list</a></div>
+      <form class="panel">
+        <label class="f">Programme<select><option>All</option><option>FCO</option><option>Verra VCS</option><option>Gold Standard</option></select></label>
+        <label class="f">Vintage<select><option>Any</option><option>2025</option><option>2024</option></select></label>
+        <label class="f">Usable for Carbon Levy<select><option>Yes</option><option>Any</option></select></label>
+        <label class="f">Sector<select><option>Any</option><option>Forestry</option><option>Waste</option><option>Energy</option></select></label>
+      </form>
+
+      <div class="grid2" style="margin-top:16px;grid-template-columns:repeat(auto-fit,minmax(420px,1fr))">
+        <div class="tbl"><table>
+          <thead><tr><th>Lot</th><th>Programme · vintage</th><th class="n">Qty (tCO₂e)</th><th class="n">Price (RM/t)</th><th>Levy</th><th>Valid until</th><th></th></tr></thead>
+          <tbody>
+            <tr style="background:#f4faf6"><td class="mono">L-2207</td><td>FCO · 2025<br><span style="font-size:11px;color:#595959">Ulu Segama, Sabah</span></td><td class="n">30,000</td><td class="n">45.00</td><td><span class="tag t-g">Eligible</span></td><td>31 Dec 2030</td><td><a href="#checkout">Buy</a></td></tr>
+            <tr><td class="mono">L-2198</td><td>Verra VCS · 2024<br><span style="font-size:11px;color:#595959">Pahang Peatland</span></td><td class="n">12,000</td><td class="n">38.50</td><td><span class="tag t-b">International</span></td><td>31 Dec 2029</td><td><a href="#">Buy</a></td></tr>
+            <tr><td class="mono">L-2190</td><td>Gold Standard · 2025<br><span style="font-size:11px;color:#595959">Palm oil mill biogas, Johor</span></td><td class="n">8,000</td><td class="n">52.00</td><td><span class="tag t-b">International</span></td><td>31 Dec 2030</td><td><a href="#">Buy</a></td></tr>
+            <tr><td class="mono">L-2186</td><td>FCO · 2023<br><span style="font-size:11px;color:#595959">Kinabatangan, Sabah</span></td><td class="n">5,500</td><td class="n">41.00</td><td><span class="tag t-g">Eligible</span></td><td>31 Dec 2028</td><td><a href="#">Buy</a></td></tr>
+          </tbody></table></div>
+
+        <section class="card" id="checkout" aria-label="Checkout">
+          <h3>Checkout · lot L-2207</h3>
+          <label class="f">Quantity (tCO₂e)<input type="text" value="3,000"><span class="hint">Minimum 100 · available 30,000</span></label>
+          <div class="tbl" style="border:0;margin-top:12px"><table><tbody>
+            <tr><td>3,000 × RM 45.00</td><td class="n">RM 135,000.00</td></tr>
+            <tr><td>Registry transaction fee (sample rate)</td><td class="n">RM 300.00</td></tr>
+            <tr><td><b>Total payable</b></td><td class="n"><b>RM 135,300.00</b></td></tr>
+          </tbody></table></div>
+          <fieldset style="border:1px solid #e0e0e0;border-radius:4px;margin:12px 0 0;padding:10px 12px"><legend style="font-weight:700;font-size:12px;padding:0 4px">Payment method</legend>
+            <label style="display:flex;gap:8px;padding:4px 0"><input type="radio" name="pay" checked> FPX online banking</label>
+            <label style="display:flex;gap:8px;padding:4px 0"><input type="radio" name="pay"> DuitNow</label>
+            <label style="display:flex;gap:8px;padding:4px 0"><input type="radio" name="pay"> Bank transfer to registry escrow (corporate)</label>
+          </fieldset>
+          <div class="note" style="margin-top:12px">Delivery versus payment: the seller's units are locked now and move to your account only when the payment is confirmed. Unpaid orders release the lock after 24 hours.</div>
+          <div class="actions"><a href="#" class="btn2">Cancel</a><a href="#" class="btn">Pay RM 135,300.00</a></div>
+        </section>
+      </div>
+
+      <h2 class="sec" id="tx">Transaction list</h2>
+      <div class="tbl"><table>
+        <thead><tr><th>Date</th><th>Ref</th><th>Type</th><th>Counterparty</th><th>Serial block</th><th class="n">Qty</th><th class="n">Amount (RM)</th><th>Payment</th><th>Units</th><th></th></tr></thead>
+        <tbody>
+          <tr><td>20 Nov 2026</td><td class="mono">TX-88412</td><td>Purchase</td><td>Sample Forest Holdings</td><td class="mono">MY-FCO-SBH-0012-2025-004-0040001–0043000</td><td class="n">3,000</td><td class="n">135,300.00</td><td><span class="tag t-a">Pending · FPX</span></td><td><span class="tag t-a">Locked</span></td><td><a href="#">Pay</a></td></tr>
+          <tr><td>14 Nov 2026</td><td class="mono">TX-88207</td><td>Purchase</td><td>Sample Agro Energy</td><td class="mono">MY-GS-JHR-0021-2025-002-0001001–0006000</td><td class="n">5,000</td><td class="n">260,500.00</td><td><span class="tag t-g">Paid</span></td><td><span class="tag t-g">Delivered</span></td><td><a href="#">Receipt</a></td></tr>
+          <tr><td>02 Nov 2026</td><td class="mono">TX-87990</td><td>Retirement · Carbon Levy</td><td>Levy surrender account</td><td class="mono">MY-FCO-SBH-0012-2025-003-0040001–0045000</td><td class="n">5,000</td><td class="n">—</td><td>—</td><td><span class="tag t-g">Retired</span></td><td><a href="Retirement.dc.html">Certificate</a></td></tr>
+        </tbody></table></div>
+
+    </main>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1200}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>
